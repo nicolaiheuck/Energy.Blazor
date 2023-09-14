@@ -1,4 +1,4 @@
-Table CLIM_Data {
+Table EGON_Data {
   Id integer [primary key]
   Temperature decimal
   Humidity decimal
@@ -6,7 +6,7 @@ Table CLIM_Data {
   SQLTStamp timestamp 
 }
 
-Table CLIM_Location {
+Table EGON_Location {
   LocationID integer [primary key]
   Room nvarchar(50)
   Floor integer
@@ -14,7 +14,7 @@ Table CLIM_Location {
 }
 
 
-Table NRG_Power {
+Table EGON_Power {
   Id integer [primary key]
   KW_YearSummarized decimal
   KW_Day decimal
@@ -23,5 +23,5 @@ Table NRG_Power {
   LocationID integer
   SQLTStamp timestamp
 }
-Ref: CLIM_Data.LocationID > CLIM_Location.LocationID // many-to-one
-Ref: NRG_Power.LocationID > CLIM_Location.LocationID
+Ref: EGON_Data.LocationID > EGON_Location.LocationID
+Ref: EGON_Power.LocationID > EGON_Location.LocationID
