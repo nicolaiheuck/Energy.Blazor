@@ -1,0 +1,27 @@
+Table CLIM_Data {
+  Id integer [primary key]
+  Temperature decimal
+  Humidity decimal
+  LocationID integer
+  SQLTStamp timestamp 
+}
+
+Table CLIM_Location {
+  LocationID integer [primary key]
+  Room nvarchar(50)
+  Floor integer
+  Building nvarchar(50)
+}
+
+
+Table NRG_Power {
+  Id integer [primary key]
+  KW_YearSummarized decimal
+  KW_Day decimal
+  WattHour decimal
+  WattPeakDay decimal
+  LocationID integer
+  SQLTStamp timestamp
+}
+Ref: CLIM_Data.LocationID > CLIM_Location.LocationID // many-to-one
+Ref: NRG_Power.LocationID > CLIM_Location.LocationID
