@@ -6,4 +6,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Energy.Repository\Energy.Repositories.csproj" />
+      <ProjectReference Include="..\Services\Energy.Services.csproj" />
+    </ItemGroup>
+
 </Project>
