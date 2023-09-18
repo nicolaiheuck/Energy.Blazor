@@ -1,0 +1,42 @@
+﻿@inject HotKeys HotKeys
+@implements IDisposable
+
+<div class="modal ">
+    <div class="modal-content rz-background-color-warning-light">
+        <div class="modal-header">
+            <h3 class="modal-title">Warring</h3>
+        </div>
+        <div class="modal-body">
+            <p class="message">@Message</p>
+        </div>
+        <div class="modal-footer">
+            <RadzenButton Click="OK" ButtonStyle="ButtonStyle.Dark" class="modal-button">OK</RadzenButton>
+            <RadzenButton Click="Cancel" ButtonStyle="ButtonStyle.Light" class="modal-button">Cancel</RadzenButton>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+    [Parameter] public string? Message { get; set; }
+
+    HotKeysContext? HotKeysContext;
+
+    protected override void OnInitialized()
+    {
+        HotKeysContext = HotKeys.CreateContext()
+            .Add(Code.Escape, async () => await Cancel());
+    }
+
+    async Task OK() => await BlazoredModal.CloseAsync();
+    async Task Cancel() => await BlazoredModal.CancelAsync();
+
+    public void Dispose()
+    {
+        if (HotKeysContext is not null)
+        {
+            HotKeysContext.Dispose();
+        }
+    }
+}

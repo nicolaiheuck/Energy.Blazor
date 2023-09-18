@@ -1,0 +1,20 @@
+{
+	//Global
+	"AddButton": "Add new",
+	"Delete": "Delete",
+	"Name": "Name",
+	"Description": "Description",
+	"Equality": "Equality",
+
+	//Global - Toast Messages
+	"SuccessfullyUpdated": "Successfully updated",
+	"FailedUpdate ": "Failed to update",
+	"SuccessfullyDeleted": "Successfully deleted",
+	"FailedDelete": "Failed to delete",
+	"SuccessfullyCreated": "Successfully created",
+	"FailedCreate": "Failed to create",
+
+	//Index
+	"HelloWorld": "Hello!"
+
+}
