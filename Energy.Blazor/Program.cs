@@ -1,4 +1,10 @@
-using Energy.Blazor.Data;
+using Blazored.Modal;
+using Blazored.Toast;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Localization;
+using Radzen;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +12,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
+// configure cultures
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { "en", "dk" };
+    options.DefaultRequestCulture = new RequestCulture("en");
+    options.AddSupportedCultures(supportedCultures);
+    options.AddSupportedUICultures(supportedCultures);
+});
+
+// UI services
+builder.Services.AddI18nText();
+builder.Services.AddBlazoredModal();
+builder.Services.AddBlazoredToast();
+builder.Services.AddHotKeys2();
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
 builder.RegisterDependencies();
 
 var app = builder.Build();
@@ -20,6 +44,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.UseStaticFiles();
 

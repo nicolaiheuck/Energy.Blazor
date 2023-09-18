@@ -7,6 +7,87 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Include="Pages\Error.cshtml" />
+      <None Include="Pages\Index.razor" />
+      <None Include="Pages\_Host.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Blazored.Modal" Version="7.1.0" />
+      <PackageReference Include="Blazored.Toast" Version="4.1.0" />
+      <PackageReference Include="Radzen.Blazor" Version="4.15.14" />
+      <PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.0.0" />
+      <PackageReference Include="Toolbelt.Blazor.I18nText" Version="12.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\css\bootstrap\bootstrap.min.css">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\bootstrap\bootstrap.min.css.map">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\Modal.css">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\FONT-LICENSE">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\css\open-iconic-bootstrap.min.css">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\fonts\open-iconic.eot">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\fonts\open-iconic.otf">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\fonts\open-iconic.svg">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\fonts\open-iconic.ttf">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\font\fonts\open-iconic.woff">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\ICON-LICENSE">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\open-iconic\README.md">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\RadzenCSSOverwrite.css">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\css\site.css">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\favicon.png">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="wwwroot\js\PageHeader.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Energy.Repository\Energy.Repositories.csproj" />
       <ProjectReference Include="..\Services\Energy.Services.csproj" />
     </ItemGroup>

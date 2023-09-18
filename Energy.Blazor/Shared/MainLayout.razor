@@ -1,19 +1,39 @@
 ﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration;
 
-<PageTitle>Energy.Blazor</PageTitle>
+<PageTitle>Vista</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<RadzenContextMenu />
+<RadzenTooltip />
+<RadzenNotification />
+<RadzenDialog />
+<BlazoredToasts Position="ToastPosition.BottomLeft"
+                Timeout="10"
+                IconType="IconType.FontAwesome"
+                ErrorIcon="fa-regular fa-xmark"
+                InfoIcon="fa-light fa-square-info"
+                SuccessIcon="check"
+                WarningIcon="fa-regular fa-triangle-exclamation"
+                MaxToastCount="3"
+                ShowProgressBar="true" />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<RadzenLayout  Style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body'">
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="@(() => sidebar2Expanded = !sidebar2Expanded)" />
+            <PageHeader />
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar2Expanded" class="bg-Menu">
+        <NavMenu />
+    </RadzenSidebar>
+    <RadzenBody>
+        <div>
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+    </RadzenBody>
+</RadzenLayout>
+
+@code {
+    bool sidebar2Expanded = true;
+}

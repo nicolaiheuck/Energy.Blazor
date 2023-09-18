@@ -1,0 +1,9 @@
+﻿<AuthorizeView>
+    <Authorized>
+        @*Hello, @context.User.Identity?.Name!*@
+        <a style="text-decoration: none;" href="MicrosoftIdentity/Account/SignOut"><RadzenButton ButtonStyle="ButtonStyle.Secondary" Size="ButtonSize.Large" Icon="logout" Class="rz-border-radius-10 rz-shadow-6"></RadzenButton></a>
+    </Authorized>
+    <NotAuthorized>
+        <a style="text-decoration: none;" href="MicrosoftIdentity/Account/SignIn"><RadzenButton ButtonStyle="ButtonStyle.Secondary" ¨Size="ButtonSize.Large" Icon="login" Class="rz-border-radius-10 rz-shadow-6"></RadzenButton></a>
+    </NotAuthorized>
+</AuthorizeView>

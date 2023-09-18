@@ -1,0 +1,20 @@
+{
+	//Global
+	"AddButton": "Tilføj ny",
+	"Delete": "Slet",
+	"Name": "Navn",
+	"Description": "Beskrivelse",
+	"Equality": "Lighed",
+
+	//Global - Toast Messages
+	"SuccessfullyUpdated": "Opdatering gennemført",
+	"FailedUpdate ": "Kunne ikke opdatere",
+	"SuccessfullyDeleted": "Succesfuldt slettet",
+	"FailedDelete": "Kunne ikke slette",
+	"SuccessfullyCreated": "Succesfuldt oprettet",
+	"FailedCreate": "Kunne ikke oprette",
+
+	//Index
+	"HelloWorld": "Hej!"
+
+}

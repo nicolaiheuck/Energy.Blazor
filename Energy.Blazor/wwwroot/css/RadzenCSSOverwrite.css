@@ -1,0 +1,41 @@
+:root {
+    /*Color shcema Change*/
+    --rz-primary: #E2000F;
+    --rz-sidebar-toggle-hover-background-color: #b6000f;
+    /*    --rz-primary-light: mix($rz-white, $rz-primary, 20%) !default;
+    --rz-primary-lighter: rgba($rz-primary, .12) !default;
+    --rz-primary-dark: mix($rz-black, $rz-primary, 20%) !default;
+    --rz-primary-darker: mix($rz-black, $rz-primary, 32%) !default;*/
+    --rz-secondary: #757575;
+    /*    --rz-secondary-light: mix($rz-white, $rz-secondary, 20%) !default;
+    --rz-secondary-lighter: rgba($rz-secondary, .12) !default;
+    --rz-secondary-dark: mix($rz-black, $rz-secondary, 20%) !default;
+    --rz-secondary-darker: mix($rz-black, $rz-secondary, 32%) !default;*/
+    /*PanelMenu*/
+    --rz-panel-menu-item-active-color: #ffffff;
+    --rz-panel-menu-item-2nd-level-active-color: #ffffff;
+    --rz-panel-menu-item-3rd-level-active-color: #ffffff;
+    --rz-panel-menu-color: #ffffff;
+    --rz-panel-menu-background-color: #313944;
+    --rz-panel-menu-hover-background-color: #494849;
+    --rz-panel-menu-hover-color: #ffffff;
+    --rz-panel-menu-font-size: 16px;
+    --rz-panel-menu-font-weight: bold;
+    --rz-panel-menu-item-background-color: #313944;
+    --rz-panel-menu-item-active-background-color: #7480ad;
+    --rz-panel-menu-item-font-weight: normal;
+    --rz-panel-menu-item-2nd-level-font-size: 10px;
+    --rz-panel-menu-item-2nd-level-font-weight: normal;
+    --rz-panel-menu-item-2nd-level-active-background-color: #7480ad;
+    --rz-panel-menu-item-2nd-level-color: #ffffff;
+    --rz-panel-menu-item-2nd-level-hover-background-color: #494849;
+    --rz-panel-menu-item-2nd-level-background-color: #313944;
+    --rz-panel-menu-item-2nd-level-hover-color: #ffffff;
+    --rz-panel-menu-item-3rd-level-hover-background-color: #313944;
+    --rz-panel-menu-item-3rd-level-hover-color: #ffffff;
+    /*Text Change*/
+    --rz-grid-header-font-weight: bold;
+
+}
+
+
