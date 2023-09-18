@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Localization;
 using Radzen;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
-using Energy.Blazor.Data;
 using Energy.Blazor.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +31,6 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.RegisterDependencies();
 
 var app = builder.Build();
