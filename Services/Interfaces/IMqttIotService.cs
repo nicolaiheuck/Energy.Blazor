@@ -9,7 +9,6 @@ namespace Energy.Services.Interfaces
 
         Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken);
 
-        // Publish Unload
         Task PublishTestAsync(TestCommand command, CancellationToken cancellationToken);
 
     }
