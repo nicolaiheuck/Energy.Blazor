@@ -1,8 +1,8 @@
-﻿using Mcc.Application.Features.Robotool.Channels;
-using Mcc.Application.Features.Robotool.Commands;
+﻿using Energy.Services.Services.IoT.Channels;
+using Energy.Services.Services.IoT.Commands;
 using System.Threading.Channels;
 
-namespace Mcc.Infrastructure.Robotool.Channels
+namespace Energy.Repositories.Infastucture.IoT.Channels
 {
     public class IotMqttCommandChannel : IIotMqttCommandChannel
     {

@@ -1,4 +1,4 @@
-﻿namespace Mcc.Infrastructure.Mqtt.Configuration
+﻿namespace Energy.Repositories.Infastucture.Mqtt.Configuration
 {
     public class MqttConfig
     {

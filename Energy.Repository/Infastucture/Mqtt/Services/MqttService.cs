@@ -1,4 +1,4 @@
-﻿using Mcc.Infrastructure.Mqtt.Configuration;
+﻿using Energy.Repositories.Infastucture.Mqtt.Configuration;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client;
@@ -6,7 +6,7 @@ using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Protocol;
 using System.Text;
 
-namespace Mcc.Infrastructure.Mqtt.Services
+namespace Energy.Repositories.Infastucture.Mqtt.Services
 {
     public sealed class MqttService : IMqttService
     {

@@ -1,4 +1,4 @@
-﻿namespace Mcc.Application.Features.Robotool.Commands
+﻿namespace Energy.Services.Services.IoT.Commands
 {
     public abstract class BaseIotCommand
     {

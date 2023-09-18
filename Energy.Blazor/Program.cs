@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Localization;
 using Radzen;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
-using Mcc.Infrastructure.Mqtt.Configuration;
-using Mcc.Infrastructure.Mqtt.Services;
 using Microsoft.Extensions.Configuration;
-using Mcc.Application.Features.Robotool.Workers;
-using Mcc.Application.Contracts.Infrastructure;
-using Mcc.Infrastructure.Robotool;
-using Mcc.Application.Features.Robotool.Channels;
-using Mcc.Infrastructure.Robotool.Channels;
+using Energy.Services.Services.IoT.Workers;
+using Energy.Repositories.Infastucture.Mqtt.Services;
+using Energy.Services.Interfaces;
+using Energy.Repositories.Infastucture.Mqtt.Configuration;
+using Energy.Services.Services.IoT.Channels;
+using Energy.Repositories.Infastucture.IoT.Channels;
+using Energy.Repositories.Infastucture.IoT;
 
 var builder = WebApplication.CreateBuilder(args);
 

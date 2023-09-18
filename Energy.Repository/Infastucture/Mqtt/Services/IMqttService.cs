@@ -1,6 +1,6 @@
 ﻿using MQTTnet.Client;
 
-namespace Mcc.Infrastructure.Mqtt.Services
+namespace Energy.Repositories.Infastucture.Mqtt.Services
 {
     public interface IMqttService
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Channels;
-using Mcc.Application.Features.Robotool.Commands;
+using Energy.Services.Services.IoT.Commands;
 
-namespace Mcc.Application.Features.Robotool.Channels
+namespace Energy.Services.Services.IoT.Channels
 {
     public interface IIotMqttCommandChannel
     {

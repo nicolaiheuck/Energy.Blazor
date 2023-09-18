@@ -1,6 +1,6 @@
-﻿using Mcc.Application.Features.Robotool.Commands;
+﻿using Energy.Services.Services.IoT.Commands;
 
-namespace Mcc.Application.Contracts.Infrastructure
+namespace Energy.Services.Interfaces
 {
     public interface IMqttIotService
     {
