@@ -6,6 +6,14 @@ using Microsoft.AspNetCore.Localization;
 using Radzen;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
+using Microsoft.Extensions.Configuration;
+using Energy.Services.Services.IoT.Workers;
+using Energy.Repositories.Infastucture.Mqtt.Services;
+using Energy.Services.Interfaces;
+using Energy.Repositories.Infastucture.Mqtt.Configuration;
+using Energy.Services.Services.IoT.Channels;
+using Energy.Repositories.Infastucture.IoT.Channels;
+using Energy.Repositories.Infastucture.IoT;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +29,14 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.AddSupportedCultures(supportedCultures);
     options.AddSupportedUICultures(supportedCultures);
 });
+
+// BG services
+builder.Services.AddHostedService<MqttIotWorker>();
+builder.Services.AddSingleton<IIotMqttCommandChannel, IotMqttCommandChannel>();
+builder.Services.AddTransient<IMqttIotService, MqttIotService>();
+builder.Services.AddSingleton<IMqttService, MqttService>();
+builder.Services.Configure<MqttConfig>(builder.Configuration.GetSection(MqttConfig.MqttSection));
+
 
 // UI services
 builder.Services.AddI18nText();
