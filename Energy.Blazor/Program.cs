@@ -8,15 +8,16 @@ using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
 using Microsoft.Extensions.Configuration;
 using Energy.Services.Services.IoT.Workers;
-using Energy.Repositories.Infastucture.Mqtt.Services;
 using Energy.Services.Interfaces;
-using Energy.Repositories.Infastucture.Mqtt.Configuration;
 using Energy.Services.Services.IoT.Channels;
-using Energy.Repositories.Infastucture.IoT.Channels;
-using Energy.Repositories.Infastucture.IoT;
 using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
+using Energy.Infrastructure.Mqtt.Configuration;
+using Energy.Infrastructure.Mqtt.Services;
+using Energy.Infrastructure.IoT;
+using Energy.Infrastructure.IoT.Channels;
+using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,15 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add authentication and authorization for Blazor Server app
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
+builder.Services.AddControllersWithViews()
+    .AddMicrosoftIdentityUI();
+
+builder.Services.AddAuthorization(options =>
+{
+    // By default, all incoming requests will be authorized according to the default policy
+    options.FallbackPolicy = options.DefaultPolicy;
+});
 
 var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
 builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
@@ -75,8 +85,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseStaticFiles();
 

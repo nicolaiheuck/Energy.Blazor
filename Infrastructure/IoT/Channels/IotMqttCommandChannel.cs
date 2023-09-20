@@ -1,9 +1,11 @@
-﻿using Energy.Services.Services.IoT.Channels;
+﻿using Energy.Repositories;
+using Energy.Services.Services.IoT.Channels;
 using Energy.Services.Services.IoT.Commands;
 using System.Threading.Channels;
 
-namespace Energy.Repositories.Infastucture.IoT.Channels
+namespace Energy.Infrastructure.IoT.Channels
 {
+    [IgnoreService]
     public class IotMqttCommandChannel : IIotMqttCommandChannel
     {
         public ChannelReader<BaseIotCommand> Reader => _channel.Reader;
