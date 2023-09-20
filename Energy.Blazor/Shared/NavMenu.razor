@@ -11,7 +11,9 @@
 </div>
 <RadzenPanelMenu Multiple="false">
 
-    <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
+    <AuthorizeView Roles="Admin">
+        <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
+    </AuthorizeView>
 
     @*     <AuthorizeView Roles=""> *@
     @*         <RadzenPanelMenuItem Text="" Icon="">
@@ -25,9 +27,9 @@
     <div class="m-2">
         <RadzenButton Size="ButtonSize.Large" ButtonStyle="ButtonStyle.Secondary" Click="@OpenSettings" Icon="settings" class="rz-border-radius-10 rz-shadow-6"></RadzenButton>
     </div>
-    @*     <div class="m-2">
+    <div class="m-2">
     <LoginDisplay />
-    </div> *@
+    </div>
 </div>
 
 

@@ -1,12 +1,14 @@
-﻿using Energy.Repositories.Infastucture.Mqtt.Services;
+﻿using Energy.Infrastructure.Mqtt.Services;
+using Energy.Repositories;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Commands;
 using MQTTnet.Client;
 using System.Text;
 using System.Text.Json;
 
-namespace Energy.Repositories.Infastucture.IoT
+namespace Energy.Infrastructure.IoT
 {
+    [IgnoreService]
     public class MqttIotService : IMqttIotService
     {
         // Unload

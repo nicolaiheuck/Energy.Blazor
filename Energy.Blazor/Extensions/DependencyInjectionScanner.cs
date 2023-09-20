@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Energy.Repositories;
 using Energy.Repositories.Interfaces;
 using Energy.Services.Interfaces;
 
@@ -87,7 +88,7 @@ public static class DependencyInjectionScanner
     private static List<Type> GetValidTypesInNamespace(string[] namespaces)
     {
         return GetClassesAndInterfacesByNamespace(namespaces)
-               .Where(t => !t.HasAttribute<CompilerGeneratedAttribute>())
+               .Where(t => !t.HasAttribute<CompilerGeneratedAttribute>() && !t.HasAttribute<IgnoreServiceAttribute>())
                .ToList();
     }
 
@@ -107,13 +108,3 @@ public static class DependencyInjectionScanner
     }
     #endregion
 }
-public class LifeTimeAttribute : Attribute
-{
-    internal ServiceLifetime Lifetime { get; set; }
-
-    internal LifeTimeAttribute(ServiceLifetime lifetime)
-    {
-        Lifetime = lifetime;
-    }
-}
-public class IgnoreServiceAttribute : Attribute { }

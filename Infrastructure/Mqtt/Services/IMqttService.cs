@@ -1,7 +1,9 @@
-﻿using MQTTnet.Client;
+﻿using Energy.Repositories;
+using MQTTnet.Client;
 
-namespace Energy.Repositories.Infastucture.Mqtt.Services
+namespace Energy.Infrastructure.Mqtt.Services
 {
+    [IgnoreService]
     public interface IMqttService
     {
         void Initialize(MqttClientOptions mqttClientOptions);
