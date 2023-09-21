@@ -5,6 +5,41 @@
 <PageTitle>Home</PageTitle>
 
 <div class="text-center">
-    <h1>@_languageTable["HelloWorld"]</h1>
+	<h1>@_languageTable["HelloWorld"]</h1>
+@* 	<RadzenCard>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Temp" ValueProperty="">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="-5" Max="60">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Humid" ValueProperty="">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="0" Max="100">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard>
+		<RadzenChart>
+			<RadzenColumnSeries Data="@" CategoryProperty="Quarter" Title="2020" LineType="LineType.Dashed" ValueProperty="">
+				<RadzenSeriesDataLabels Visible="@true" />
+			</RadzenColumnSeries>
+			<RadzenColumnOptions Radius="5" />
+			<RadzenValueAxis Formatter="@FormatAsUSD">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard> *@
 </div>
 
