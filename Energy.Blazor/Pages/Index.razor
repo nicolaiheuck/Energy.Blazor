@@ -1,29 +1,10 @@
 ﻿@page "/"
-@implements IDisposable
-@inject HotKeys HotKeys
-@inject IToastService ToastService
-@inject Toolbelt.Blazor.I18nText.I18nText I18nText
 @attribute [Authorize(Roles = "Admin")]
 
 
 <PageTitle>Home</PageTitle>
 
 <div class="text-center">
-    <h1>@languageTable["HelloWorld"]</h1>
+    <h1>@_languageTable["HelloWorld"]</h1>
 </div>
 
-@code {
-    HotKeysContext HotKeysContext;
-    I18nText.LanguageTable languageTable = new I18nText.LanguageTable();
-
-    protected override async Task OnInitializedAsync()
-    {
-        languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
-        this.HotKeysContext = this.HotKeys.CreateContext()
-            .Add(Code.F8, Toaster);
-    }
-
-    void Toaster() => ToastService.ShowInfo("Congratulations, you just pressed hotkey: F8");
-
-    public void Dispose() => this.HotKeysContext.Dispose();
-}

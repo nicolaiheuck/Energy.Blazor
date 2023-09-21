@@ -1,4 +1,5 @@
 ﻿@inject HotKeys HotKeys
+@inject Toolbelt.Blazor.I18nText.I18nText I18nText
 @implements IDisposable
 
 <div class="modal ">
@@ -7,11 +8,11 @@
             <h3 class="modal-title">Delete</h3>
         </div>
         <div class="modal-body">
-            <p class="message">Are you sure you want to delete @Message</p>
+            <p class="message">@languageTable["DeleteConfirmation"] @Message</p>
         </div>
         <div class="modal-footer">
-            <RadzenButton Click="OK" ButtonStyle="ButtonStyle.Primary" class="modal-button">Yes</RadzenButton>
-            <RadzenButton Click="Cancel" ButtonStyle="ButtonStyle.Light" class="modal-button">No</RadzenButton>
+            <RadzenButton Click="OK" ButtonStyle="ButtonStyle.Primary" class="modal-button">@languageTable["Yes"]</RadzenButton>
+            <RadzenButton Click="Cancel" ButtonStyle="ButtonStyle.Light" class="modal-button">@languageTable["No"]</RadzenButton>
         </div>
     </div>
 </div>
@@ -20,11 +21,13 @@
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
     [Parameter] public string? Message { get; set; }
+    I18nText.LanguageTable languageTable = new I18nText.LanguageTable();
 
     HotKeysContext? HotKeysContext;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
+        languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
         HotKeysContext = HotKeys.CreateContext()
             .Add(Code.Escape, async () => await Cancel()); 
     }
