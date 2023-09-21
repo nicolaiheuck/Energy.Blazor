@@ -6,7 +6,7 @@ namespace Energy.Services.Interfaces
     [IgnoreService]
     public interface IMqttIotService
     {
-        public event EventHandler<EventArgs>? SubscribeToTest;
+        public event EventHandler<EventArgs>? SubscribeToEgonData;
 
 
         Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken);
