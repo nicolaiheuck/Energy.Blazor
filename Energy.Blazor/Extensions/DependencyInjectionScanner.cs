@@ -10,7 +10,7 @@ public static class DependencyInjectionScanner
 {
     public static void RegisterDependencies(this WebApplicationBuilder builder)
     {
-        builder.Services.AddByNamespaces(ServiceLifetime.Scoped, "Energy.Services.Interfaces", "Energy.Services.Services", "Energy.Repositories.Interfaces", "Energy.Repositories.Repositories");
+        builder.Services.AddByNamespaces(ServiceLifetime.Scoped, "Energy.Services.Interfaces", "Energy.Services.Services", "Energy.Repositories.Interfaces", "Energy.Repositories.Repositories", "Energy.Repositories.DbContexts");
     }
 
     /// <summary>
