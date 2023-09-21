@@ -1,12 +1,9 @@
 using Blazored.Modal;
 using Blazored.Toast;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Localization;
 using Radzen;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
-using Microsoft.Extensions.Configuration;
 using Energy.Services.Services.IoT.Workers;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Channels;

@@ -3,7 +3,6 @@ using Energy.Repositories;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Commands;
 using MQTTnet.Client;
-using System.Text;
 using System.Text.Json;
 
 namespace Energy.Infrastructure.IoT

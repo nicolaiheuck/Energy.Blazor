@@ -1,5 +1,3 @@
-using System.Text;
-using System.Text.Json;
 using Energy.Repositories.Entities;
 using Energy.Repositories.Interfaces;
 using Energy.Services.DTO;

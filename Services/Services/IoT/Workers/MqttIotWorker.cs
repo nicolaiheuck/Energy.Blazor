@@ -1,14 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Energy.Repositories.Entities;
-using Energy.Repositories.Interfaces;
 using Energy.Services.DTO;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Channels;
 using Energy.Services.Services.IoT.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using MQTTnet.Client;
 
 namespace Energy.Services.Services.IoT.Workers
