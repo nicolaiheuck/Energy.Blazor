@@ -17,6 +17,8 @@ using Energy.Infrastructure.Mqtt.Configuration;
 using Energy.Infrastructure.Mqtt.Services;
 using Energy.Infrastructure.IoT;
 using Energy.Infrastructure.IoT.Channels;
+using Energy.Repositories.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,7 +74,14 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+
 builder.RegisterDependencies();
+string egonConnectionString = builder.Configuration.GetConnectionString("EgonDb");
+Console.WriteLine("EgonDb: " + egonConnectionString);
+builder.Services.AddDbContext<EgonContext>(options =>
+{
+    options.UseMySql(egonConnectionString, new MySqlServerVersion(new Version(10, 9, 0)));
+});
 
 var app = builder.Build();
 
