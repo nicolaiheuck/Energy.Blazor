@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Energy.Services.DTO;
 
-public class EgonDataReadingDTO
+public class MQTTDataReadingDTO
 {
     [JsonPropertyName("temperature")]
     public decimal Temperature { get; set; }

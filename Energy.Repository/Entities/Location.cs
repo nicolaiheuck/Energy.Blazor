@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Energy.Repositories.Entities;
 
+[Table("EGON_Location")]
 public class Location
 {
     public int LocationId { get; set; }

@@ -76,11 +76,9 @@ builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 
 builder.RegisterDependencies();
-string egonConnectionString = builder.Configuration.GetConnectionString("EgonDb");
-Console.WriteLine("EgonDb: " + egonConnectionString);
 builder.Services.AddDbContext<EgonContext>(options =>
 {
-    options.UseMySql(egonConnectionString, new MySqlServerVersion(new Version(10, 9, 0)));
+    options.UseMySql(builder.Configuration.GetConnectionString("EgonDb"), new MySqlServerVersion(new Version(10, 9, 0)));
 });
 
 var app = builder.Build();

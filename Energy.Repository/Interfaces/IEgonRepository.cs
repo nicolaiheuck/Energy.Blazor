@@ -5,4 +5,5 @@ namespace Energy.Repositories.Interfaces;
 public interface IEgonRepository
 {
     Task AddReadingAsync(DataReading dataReading);
+    Task<Location?> GetSchoolByNameAsync(string? schoolName);
 }

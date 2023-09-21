@@ -60,21 +60,15 @@ namespace Energy.Services.Services.IoT.Workers
             var args = e as MqttApplicationMessageReceivedEventArgs;
             ArgumentNullException.ThrowIfNull(args);
 
+            var school = args.ApplicationMessage.Topic.Split("/").FirstOrDefault();
+
             var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
-            var dataReadingDTO = JsonSerializer.Deserialize<EgonDataReadingDTO>(payload);
-            ArgumentNullException.ThrowIfNull(dataReadingDTO);
-            DataReading dataReading = new()
-            {
-                Temperature = dataReadingDTO.Temperature,
-                Humidity = dataReadingDTO.Humidity,
-                LocationId = 1
-            };
-            //NH_TODO: Filter schools based on mqtt topic, add location Id
+            var dataReadingDTO = JsonSerializer.Deserialize<MQTTDataReadingDTO>(payload);
 
             using var scope = _serviceProvider.CreateScope();
-            var repository = scope.ServiceProvider.GetRequiredService<IEgonRepository>();
+            var service = scope.ServiceProvider.GetRequiredService<IEgonService>();
             
-            await repository.AddReadingAsync(dataReading);
+            await service.AddReadingAsync(dataReadingDTO, school);
         }
     }
 }
