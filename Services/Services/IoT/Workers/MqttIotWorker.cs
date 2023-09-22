@@ -1,8 +1,12 @@
-﻿using Energy.Services.Interfaces;
+﻿using System.Text;
+using System.Text.Json;
+using Energy.Services.DTO;
+using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Channels;
 using Energy.Services.Services.IoT.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using MQTTnet.Client;
 
 namespace Energy.Services.Services.IoT.Workers
 {
@@ -10,11 +14,13 @@ namespace Energy.Services.Services.IoT.Workers
     {
         private readonly IIotMqttCommandChannel _iotMqttCommandChannel;
         private readonly IMqttIotService _mqttIotService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public MqttIotWorker(IIotMqttCommandChannel iotMqttCommandChannel, IMqttIotService mqttIotService)
+        public MqttIotWorker(IIotMqttCommandChannel iotMqttCommandChannel, IMqttIotService mqttIotService, IServiceProvider serviceProvider)
         {
             _iotMqttCommandChannel = iotMqttCommandChannel;
             _mqttIotService = mqttIotService;
+            _serviceProvider = serviceProvider;
         }
 
 
@@ -24,7 +30,7 @@ namespace Energy.Services.Services.IoT.Workers
             await _mqttIotService.IotConnectAndSubscribeAsync(cancellationToken);
 
 
-            _mqttIotService.SubscribeToTest += OnTestMessageRecived;
+            _mqttIotService.SubscribeToEgonData += OnEgonDataMessageReceived;
 
             await foreach (var message in _iotMqttCommandChannel.ReadAllAsync(cancellationToken))
             {
@@ -40,16 +46,26 @@ namespace Energy.Services.Services.IoT.Workers
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            //_logger.LogInformation("{name} is stopping.", nameof(MqttRobotoolWorker));
-            _mqttIotService.SubscribeToTest -= OnTestMessageRecived;
+            _mqttIotService.SubscribeToEgonData -= OnEgonDataMessageReceived;
 
             await base.StopAsync(cancellationToken);
         }
 
 
-        private void OnTestMessageRecived(object? sender, EventArgs e)
+        private async void OnEgonDataMessageReceived(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var args = e as MqttApplicationMessageReceivedEventArgs;
+            ArgumentNullException.ThrowIfNull(args);
+
+            var school = args.ApplicationMessage.Topic.Split("/").FirstOrDefault();
+
+            var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
+            var dataReadingDTO = JsonSerializer.Deserialize<MQTTDataReadingDTO>(payload);
+
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IEgonService>();
+            
+            await service.AddReadingAsync(dataReadingDTO, school);
         }
     }
 }

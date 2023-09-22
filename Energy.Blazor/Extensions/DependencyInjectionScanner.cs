@@ -10,7 +10,7 @@ public static class DependencyInjectionScanner
 {
     public static void RegisterDependencies(this WebApplicationBuilder builder)
     {
-        builder.Services.AddByNamespaces(ServiceLifetime.Scoped, "Energy.Services.Interfaces", "Energy.Services.Services", "Energy.Repositories.Interfaces", "Energy.Repositories.Repositories");
+        builder.Services.AddByNamespaces(ServiceLifetime.Scoped, "Energy.Services.Interfaces", "Energy.Services.Services", "Energy.Repositories.Interfaces", "Energy.Repositories.Repositories", "Energy.Repositories.DbContexts");
     }
 
     /// <summary>
@@ -96,8 +96,8 @@ public static class DependencyInjectionScanner
     {
         List<Assembly> assemblies = new()
         {
-            typeof(IExampleService).Assembly,
-            typeof(IExampleRepository).Assembly,
+            typeof(IEgonService).Assembly,
+            typeof(IEgonRepository).Assembly,
         };
 
         return assemblies.SelectMany(a => a.GetTypes())

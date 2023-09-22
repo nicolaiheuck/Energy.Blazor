@@ -3,7 +3,6 @@ using Energy.Repositories;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Commands;
 using MQTTnet.Client;
-using System.Text;
 using System.Text.Json;
 
 namespace Energy.Infrastructure.IoT
@@ -11,23 +10,18 @@ namespace Energy.Infrastructure.IoT
     [IgnoreService]
     public class MqttIotService : IMqttIotService
     {
-        // Unload
-        public event EventHandler<EventArgs>? SubscribeToTest;
-
+        public event EventHandler<EventArgs>? SubscribeToEgonData;
 
         private readonly IMqttService _mqttService;
         private const string _BaseUrlPub = "energy/pub/";
-        private const string _BaseUrlSub = "energy/sub/";
+        private const string _BaseUrlSub = "+/+/+/pv/";
 
-        private const string _testEndpointTopic = "test";
-
-
+        private const string _egonDataEndpointTopic = "data";
 
         public MqttIotService(IMqttService mqttService)
         {
             _mqttService = mqttService;
         }
-
 
         public async Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken)
         {
@@ -40,35 +34,24 @@ namespace Energy.Infrastructure.IoT
             Func<MqttApplicationMessageReceivedEventArgs, Task> func = new(OnMessageReceivedIotAsync);
             _mqttService.HandleReceivedApplicationMessage(func);
 
-            await _mqttService.SubscribeAsync(_BaseUrlSub + _testEndpointTopic);
+            await _mqttService.SubscribeAsync(_BaseUrlSub + _egonDataEndpointTopic);
 
         }
-
 
         public Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            switch (args.ApplicationMessage.Topic)
+            if (args.ApplicationMessage.Topic.EndsWith("/pv/data"))
             {
-                // Unload
-                case _BaseUrlSub + _testEndpointTopic:
-                    //_logger.LogDebug($"Received MQTT message on topic:: {args.ApplicationMessage.Topic}, with payload: {Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment)}");
-                    SubscribeToTest?.Invoke(this, new EventArgs());
-                    break;
-
-                default:
-                    //_logger.LogWarning($"No Handerler for received MQTT message on topic:: {args.ApplicationMessage.Topic}, with payload: {Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment)}");
-                    break;
+                SubscribeToEgonData?.Invoke(this, args);
             }
-
+            
             return Task.CompletedTask;
         }
-
-
 
         public Task PublishTestAsync(TestCommand command, CancellationToken cancellationToken)
         {
             var payload = JsonSerializer.Serialize(command);
-            return _mqttService.PublishAsync($"{_BaseUrlPub}{_testEndpointTopic}", payload, cancellationToken);
+            return _mqttService.PublishAsync($"{_BaseUrlPub}{_egonDataEndpointTopic}", payload, cancellationToken);
         }
     }
 }
