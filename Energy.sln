@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energy.Services", "Services
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energy.Repositories", "Energy.Repository\Energy.Repositories.csproj", "{6CAE9246-FB09-4153-A544-7EBF5975290D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Energy.Infrastructure", "Infrastructure\Energy.Infrastructure.csproj", "{F3F019B1-D724-4102-B54D-360703DF4E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energy.Infrastructure", "Infrastructure\Energy.Infrastructure.csproj", "{F3F019B1-D724-4102-B54D-360703DF4E5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
