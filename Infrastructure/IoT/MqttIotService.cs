@@ -1,9 +1,11 @@
-﻿using Energy.Infrastructure.Mqtt.Services;
+﻿using System.Text;
+using Energy.Infrastructure.Mqtt.Services;
 using Energy.Repositories;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Commands;
 using MQTTnet.Client;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace Energy.Infrastructure.IoT
 {
@@ -13,14 +15,16 @@ namespace Energy.Infrastructure.IoT
         public event EventHandler<EventArgs>? SubscribeToEgonData;
 
         private readonly IMqttService _mqttService;
+        private readonly ILogger<MqttIotService> _logger;
         private const string _BaseUrlPub = "energy/pub/";
         private const string _BaseUrlSub = "+/+/+/pv/";
 
         private const string _egonDataEndpointTopic = "data";
 
-        public MqttIotService(IMqttService mqttService)
+        public MqttIotService(IMqttService mqttService, ILogger<MqttIotService> logger)
         {
             _mqttService = mqttService;
+            _logger = logger;
         }
 
         public async Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken)
@@ -35,7 +39,6 @@ namespace Energy.Infrastructure.IoT
             _mqttService.HandleReceivedApplicationMessage(func);
 
             await _mqttService.SubscribeAsync(_BaseUrlSub + _egonDataEndpointTopic);
-
         }
 
         public Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -43,6 +46,11 @@ namespace Energy.Infrastructure.IoT
             if (args.ApplicationMessage.Topic.EndsWith("/pv/data"))
             {
                 SubscribeToEgonData?.Invoke(this, args);
+            }
+            else
+            {
+                var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
+                _logger.LogWarning("Received MQTT message on topic {topic} but doesn't know how to process it. Payload: {payload}", args.ApplicationMessage.Topic, payload);
             }
             
             return Task.CompletedTask;
