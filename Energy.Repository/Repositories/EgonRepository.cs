@@ -31,4 +31,11 @@ public class EgonRepository : IEgonRepository
             .Where(d => d.SQLTStamp >= startTime && d.SQLTStamp <= endTime)
             .ToListAsync();
     }
+
+    public async Task<List<Location>> GetAllLocationsBySchoolNameAsync(string location)
+    {
+        return await _context.Locations
+            .Where(d => d.School == location)
+            .ToListAsync();
+    }
 }

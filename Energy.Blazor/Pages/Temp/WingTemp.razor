@@ -1,47 +1,44 @@
 ﻿@page "/temp"
 @using Energy.Blazor.Pages.Temp.Components;
+@using Energy.Services.DTO;
 @attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Temp</PageTitle>
 
 
-@* <div class="container-fluid h-100">
+<div class="container-fluid h-100">
     <div class="row">
         <div class="col-12 mt-10 mb-10">
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.H6">
                     List of Sfcs
                 </RadzenText>
-                <RadzenDataGrid @ref="_wingInformationGrid"
-                                TItem="_wingInformationVms"
+                <RadzenDataGrid @ref="_locationInformationGrid"
+                                TItem="LocationDTO"
                                 AllowPaging="true"
                                 PageSize="@PageSize"
                                 AllowColumnResize="true"
                                 SelectionMode="DataGridSelectionMode.Single"
-                                RowSelect="OnSelectedSfc"
+                                RowSelect="OnSelectedLocationFloor"
                                 AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
                                 PagerHorizontalAlign="HorizontalAlign.Center"
                                 IsLoading=@IsTaskRunningService.IsTaskRunning
-                                LoadData="@LoadData"
-                                Data="@_sfcInformationVms"
+                                Data="@_locationInformationVms"
                                 Count="@Count">
 
                     <Columns>
-                        <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="LocationDTO" Property="Floor" Title="test"></RadzenDataGridColumn>
+                        @* <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn> *@
                     </Columns>   
                 </RadzenDataGrid>
             </RadzenCard>
         </div>
 
         <div class="col-12">
-            @if (SelectedDetailedWing is not null)
+            @if (SelectedDetailedLocation is not null)
             {
 
-                <CascadingValue Value="@SelectedDetailedWing">
+                <CascadingValue Value="@SelectedDetailedLocation">
                     <CascadingValue Value="@_languageTable">
                         <RoomTemp></RoomTemp>
                     </CascadingValue>
@@ -49,4 +46,4 @@
             }
         </div>
     </div>
-</div> *@
+</div> 
