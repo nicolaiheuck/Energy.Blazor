@@ -40,4 +40,18 @@ public class EgonService : IEgonService
             _logger.LogError(ex, "AddReadingAsync failed");
         }
     }
+
+    public async Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
+    {
+        try
+        {
+            var readings = await _egonRepository.GetAllDataReadingsAsync(startTime, endTime);
+            return readings;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "GetAllDataReadingsAsync failed");
+            throw;
+        }
+    }
 }
