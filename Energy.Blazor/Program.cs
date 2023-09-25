@@ -75,7 +75,11 @@ builder.Services.AddScoped<ContextMenuService>();
 builder.RegisterDependencies();
 builder.Services.AddDbContext<EgonContext>(options =>
 {
-    options.UseMySql(builder.Configuration.GetConnectionString("EgonDb"), new MySqlServerVersion(new Version(10, 9, 0)));
+    options.UseMySql(builder.Configuration.GetConnectionString("EgonDb"), new MySqlServerVersion(new Version(10, 9, 0)), options => options.EnableRetryOnFailure(15));
+});
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddSeq(builder.Configuration.GetSection("Seq"));
 });
 
 var app = builder.Build();

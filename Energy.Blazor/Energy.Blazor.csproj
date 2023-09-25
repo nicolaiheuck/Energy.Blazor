@@ -23,6 +23,7 @@
       <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.13.4" />
       <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.13.4" />
       <PackageReference Include="Radzen.Blazor" Version="4.15.14" />
+      <PackageReference Include="Seq.Extensions.Logging" Version="6.1.0" />
       <PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.0.0" />
       <PackageReference Include="Toolbelt.Blazor.I18nText" Version="12.0.2" />
     </ItemGroup>

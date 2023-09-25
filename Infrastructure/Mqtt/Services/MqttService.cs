@@ -6,6 +6,7 @@ using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Protocol;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Energy.Infrastructure.Mqtt.Services
 {
@@ -15,11 +16,13 @@ namespace Energy.Infrastructure.Mqtt.Services
         private IManagedMqttClient? _mqttClient;
         private ManagedMqttClientOptions? _managedMqttClientOptions;
         private readonly IOptionsMonitor<MqttConfig> _mqttConfig;
+        private readonly ILogger<MqttService> _logger;
 
-
-        public MqttService(IOptionsMonitor<MqttConfig> mqttConfig)
+        public MqttService(IOptionsMonitor<MqttConfig> mqttConfig, ILogger<MqttService> logger)
         {
             _mqttConfig = mqttConfig;
+            _logger = logger;
+
             Initialize(new MqttClientOptionsBuilder()
                 .WithClientId(Guid.NewGuid().ToString())
                 .WithCleanSession(true)
@@ -66,12 +69,12 @@ namespace Energy.Infrastructure.Mqtt.Services
                         QualityOfServiceLevel = MqttQualityOfServiceLevel.ExactlyOnce
                     };
                     await _mqttClient.EnqueueAsync(message);
-                    //_logger.LogInformation("{name} is started.", nameof(MqttService));
+                    _logger.LogInformation("{name} is started.", nameof(MqttService));
                 }
             }
             catch (Exception ex)
             {
-                //_logger.LogError("MQTT client failed to connect. Exception message: {errorMessage}", ex.Message);
+                _logger.LogError("MQTT client failed to connect. Exception message: {errorMessage}", ex.Message);
             }
         }
 
@@ -93,7 +96,7 @@ namespace Energy.Infrastructure.Mqtt.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError("MQTT client failed to Publish. Exception message: {errorMessage}", ex.Message);
+                _logger.LogError("MQTT client failed to Publish. Exception message: {errorMessage}", ex.Message);
             }
         }
 
@@ -126,7 +129,7 @@ namespace Energy.Infrastructure.Mqtt.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError("MQTT client failed to Subscribe. Exception message: {errorMessage}", ex.Message);
+                _logger.LogError("MQTT client failed to Subscribe. Exception message: {errorMessage}", ex.Message);
             }
         }
 
@@ -140,7 +143,7 @@ namespace Energy.Infrastructure.Mqtt.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError("MQTT client failed to Unsubsrcibe. Exception message: {errorMessage}", ex.Message);
+                _logger.LogError("MQTT client failed to Unsubscribe. Exception message: {errorMessage}", ex.Message);
             }
         }
     }
