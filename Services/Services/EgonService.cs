@@ -36,7 +36,7 @@ public class EgonService : IEgonService
             PowerReading powerReading = new()
             {
                 KiloWattHour = dto.KiloWattHour,
-                PeakKiloWattHour = dto.PeakKiloWattHour
+                PeakKiloWatt = dto.PeakKiloWatt
             };
 
             await _egonRepository.AddTemperatureReadingAsync(dataReading);

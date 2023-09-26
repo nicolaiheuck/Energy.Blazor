@@ -13,6 +13,6 @@ public class MQTTDataReadingDTO
     [JsonPropertyName("kiloWattHour")]
     public decimal KiloWattHour { get; set; }
     
-    [JsonPropertyName("peakKiloWattHour")]
-    public decimal PeakKiloWattHour { get; set; }
+    [JsonPropertyName("peakKiloWatt")]
+    public decimal PeakKiloWatt { get; set; }
 }
