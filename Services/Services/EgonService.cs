@@ -17,7 +17,7 @@ public class EgonService : IEgonService
         _logger = logger;
     }
 
-    public async Task AddReadingAsync(MQTTDataReadingDTO? dto, string? schoolName)
+    public async Task AddReadingAsync(MQTTDataReadingDTO? dto, string? schoolName, string? floor, string? room)
     {
         try
         {
@@ -33,7 +33,14 @@ public class EgonService : IEgonService
                 Humidity = dto.Humidity
             };
 
-            await _egonRepository.AddReadingAsync(dataReading);
+            PowerReading powerReading = new()
+            {
+                KiloWattHour = dto.KiloWattHour,
+                PeakKiloWattHour = dto.PeakKiloWattHour
+            };
+
+            await _egonRepository.AddTemperatureReadingAsync(dataReading);
+            await _egonRepository.AddPowerReadingAsync(powerReading, schoolName, floor, room);
         }
         catch (Exception ex)
         {

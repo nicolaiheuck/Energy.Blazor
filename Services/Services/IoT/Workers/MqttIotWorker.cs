@@ -62,7 +62,9 @@ namespace Energy.Services.Services.IoT.Workers
                 var args = e as MqttApplicationMessageReceivedEventArgs;
                 ArgumentNullException.ThrowIfNull(args);
 
-                var school = args.ApplicationMessage.Topic.Split("/").FirstOrDefault();
+                var school = args.ApplicationMessage.Topic.Split("/")[0];
+                var floor = args.ApplicationMessage.Topic.Split("/")[1];
+                var room = args.ApplicationMessage.Topic.Split("/")[2];
 
                 var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
                 var dataReadingDTO = JsonSerializer.Deserialize<MQTTDataReadingDTO>(payload);
@@ -71,7 +73,7 @@ namespace Energy.Services.Services.IoT.Workers
                 using var scope = _serviceProvider.CreateScope();
                 var service = scope.ServiceProvider.GetRequiredService<IEgonService>();
 
-                await service.AddReadingAsync(dataReadingDTO, school);
+                await service.AddReadingAsync(dataReadingDTO, school, floor, room);
             }
             catch (Exception ex)
             {

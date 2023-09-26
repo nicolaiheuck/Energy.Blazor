@@ -5,6 +5,6 @@ namespace Energy.Services.Interfaces;
 
 public interface IEgonService
 {
-    Task AddReadingAsync(MQTTDataReadingDTO? dto, string? schoolName);
+    Task AddReadingAsync(MQTTDataReadingDTO dataReadingDto, string schoolName, string floor, string room);
     Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
 }
