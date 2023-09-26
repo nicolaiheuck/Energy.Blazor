@@ -7,11 +7,14 @@ namespace Energy.Services.Interfaces
     public interface IMqttIotService
     {
         public event EventHandler<EventArgs>? SubscribeToEgonData;
+        public event EventHandler<EventArgs>? SubscribeToLocationData;
 
 
         Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken);
 
         Task PublishTestAsync(TestCommand command, CancellationToken cancellationToken);
+
+        Task PublishAsync(string topic, string payload, CancellationToken cancellationToken);
 
     }
 }

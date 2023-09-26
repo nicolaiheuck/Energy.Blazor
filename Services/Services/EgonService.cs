@@ -17,13 +17,13 @@ public class EgonService : IEgonService
         _logger = logger;
     }
 
-    public async Task AddReadingAsync(MQTTDataReadingDTO? dto, string? schoolName)
+    public async Task AddReadingAsync(MQTTDataReadingDTO? dto, string[]? topics)
     {
         try
         {
             ArgumentNullException.ThrowIfNull(dto);
 
-            var school = await _egonRepository.GetSchoolByNameAsync(schoolName);
+            var school = await _egonRepository.FindSchoolLocationAsync(topics);
             ArgumentNullException.ThrowIfNull(school);
 
             DataReading dataReading = new()
@@ -53,5 +53,40 @@ public class EgonService : IEgonService
             _logger.LogError(ex, "GetAllDataReadingsAsync failed");
             throw;
         }
+    }
+
+    public async Task<List<FagDTO>> GetAllClassesFromAPIAsync(int schoolId, int limit, int offset)
+    {
+        var fagList = await _egonRepository.GetAllClassesOnSchoolAsync(schoolId, limit, offset);
+        var fagDTOs = new List<FagDTO>();
+        foreach (var fag in fagList)
+        {
+            fagDTOs.Add(new FagDTO
+            {
+                Description = fag.fag,
+                ClassStartdate = fag.fag_startdato,
+                ClassEnddate = fag.fag_slutdato,
+                Remotestudy = fag.fjernundervisning,
+                School = fag.gennemfoerende_skole,
+                ShortDescription = fag.betegnelse,
+                Location = fag.perioder.lokation,
+                LocationDescription = fag.perioder.lokation_betegnelse,
+                HoursDay = fag.timer_pr_dag,
+                Education = fag.uddannelse
+            });
+        }
+
+        return fagDTOs;
+    }
+
+    public async Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, int floor, int room)
+    {
+        var schoolId = await _egonRepository.FindSchoolLocationAsync(schoolName);
+        var listOfClasses = await GetAllClassesFromAPIAsync(schoolId.LocationId, 10, 0); // DEBUG Hardcoded limit because of mock API
+        var roomInfo = listOfClasses
+            .Where(c => c.Location == $"{floor}.{room}")
+            .MinBy(c => c.ClassStartdate);
+
+        return roomInfo;
     }
 }
