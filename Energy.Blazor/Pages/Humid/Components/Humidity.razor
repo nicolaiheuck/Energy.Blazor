@@ -1,13 +1,12 @@
 ﻿<RadzenCard class="m-3">
-	<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
+	<RadzenText TextStyle="TextStyle.H4">Humidity</RadzenText>
 	<RadzenChart>
-		<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
+		<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Humidity" ValueProperty="Humidity">
 			<RadzenMarkers MarkerType="MarkerType.None" />
 			<RadzenSeriesDataLabels Visible="false" />
 		</RadzenLineSeries>
-		<RadzenValueAxis Min="10" Max="35">
+		<RadzenValueAxis Min="0" Max="100">
 			<RadzenGridLines Visible="false" />
 		</RadzenValueAxis>
 	</RadzenChart>
 </RadzenCard>
-

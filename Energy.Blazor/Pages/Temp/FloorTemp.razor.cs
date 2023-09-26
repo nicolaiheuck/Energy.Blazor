@@ -9,7 +9,7 @@ using Toolbelt.Blazor.HotKeys2;
 
 namespace Energy.Blazor.Pages.Temp
 {
-    public partial class WingTemp : IDisposable
+    public partial class FloorTemp : IDisposable
     {
         [Inject]
         public IToastService? ToastService { get; set; }
