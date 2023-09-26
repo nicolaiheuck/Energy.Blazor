@@ -1,3 +1,14 @@
-﻿<h3>Temp</h3>
-
+﻿
+<RadzenCard>
+	<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
+	<RadzenChart>
+		<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
+			<RadzenMarkers MarkerType="MarkerType.None" />
+			<RadzenSeriesDataLabels Visible="false" />
+		</RadzenLineSeries>
+		<RadzenValueAxis Min="10" Max="35">
+			<RadzenGridLines Visible="false" />
+		</RadzenValueAxis>
+	</RadzenChart>
+</RadzenCard>
 

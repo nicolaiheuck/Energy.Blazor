@@ -1,4 +1,6 @@
 ﻿using Blazored.Toast.Services;
+using Energy.Services.DTO;
+using Energy.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Toolbelt.Blazor.HotKeys2;
 
@@ -15,7 +17,15 @@ namespace Energy.Blazor.Pages.Temp.Components
         [Inject]
         public Toolbelt.Blazor.I18nText.I18nText? I18nText { get; set; }
 
-        private HotKeysContext? _hotKeysContext;
+        [Inject]
+        public IEgonService? EgonService { get; set;}
+
+        [CascadingParameter]
+		public LocationDTO SelectedDetailedLocation { get; set; }
+
+
+        private List<DataReadingDTO> _dataReadingDTO = new();
+		private HotKeysContext? _hotKeysContext;
         private I18nText.LanguageTable _languageTable = new();
 
         protected override async Task OnInitializedAsync()
@@ -26,6 +36,7 @@ namespace Energy.Blazor.Pages.Temp.Components
             _languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
             _hotKeysContext = HotKeys.CreateContext()
                 .Add(Code.F8, Toaster);
+            _dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation);
         }
         void Toaster()
         {

@@ -7,43 +7,66 @@
 
 
 <div class="container-fluid h-100">
-    <div class="row">
-        <div class="col-12 mt-10 mb-10">
-            <RadzenCard>
-                <RadzenText TextStyle="TextStyle.H6">
-                    List of Sfcs
-                </RadzenText>
-                <RadzenDataGrid @ref="_locationInformationGrid"
-                                TItem="LocationDTO"
-                                AllowPaging="true"
-                                PageSize="@PageSize"
-                                AllowColumnResize="true"
-                                SelectionMode="DataGridSelectionMode.Single"
-                                RowSelect="OnSelectedLocationFloor"
-                                AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
-                                PagerHorizontalAlign="HorizontalAlign.Center"
-                                IsLoading=@IsTaskRunningService.IsTaskRunning
-                                Data="@_locationInformationVms"
-                                Count="@Count">
+	<div class="row">
+		<div class="col-12 mt-10 mb-10">
+			<RadzenCard>
+				<RadzenText TextStyle="TextStyle.H6">
+					List of Floors
+				</RadzenText>
+				<RadzenDataGrid @ref="_locationInformationGrid"
+								TItem="LocationDTO"
+								AllowPaging="true"
+								PageSize="@PageSize"
+								AllowColumnResize="true"
+								SelectionMode="DataGridSelectionMode.Single"
+								RowSelect="OnSelectedLocationFloor"
+								AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
+								PagerHorizontalAlign="HorizontalAlign.Center"
+								IsLoading=@IsTaskRunningService.IsTaskRunning
+								LoadData="@LoadData"
+								Data="@_locationInformationFloor"
+								Count="@Count">
 
-                    <Columns>
-                        <RadzenDataGridColumn TItem="LocationDTO" Property="Floor" Title="test"></RadzenDataGridColumn>
-                        @* <RadzenDataGridColumn TItem="_wingInformationVms" Property="" Title="@languageTable[""]"></RadzenDataGridColumn> *@
-                    </Columns>   
-                </RadzenDataGrid>
-            </RadzenCard>
-        </div>
+					<Columns>
+						<RadzenDataGridColumn TItem="LocationDTO" Property="Floor" Title="Floor"></RadzenDataGridColumn>
+					</Columns>
+				</RadzenDataGrid>
+			</RadzenCard>
+		</div>
 
-        <div class="col-12">
-            @if (SelectedDetailedLocation is not null)
-            {
+		<div class="col-12">
+			@if (SelectedDetailedLocation.Floor != 0)
+			{
+				<RadzenCard>
+					<RadzenText TextStyle="TextStyle.H6">
+						List of Rooms
+					</RadzenText>
+					<RadzenDataGrid @ref="_locationInformationGrid"
+									TItem="LocationDTO"
+									AllowPaging="true"
+									PageSize="@PageSize"
+									AllowColumnResize="true"
+									SelectionMode="DataGridSelectionMode.Single"
+									RowSelect="OnSelectedLocationRoom"
+									AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
+									PagerHorizontalAlign="HorizontalAlign.Center"
+									IsLoading=@IsTaskRunningService.IsTaskRunning
+									LoadData="@LoadData"
+									Data="@_locationInformationRoom"
+									Count="@Count">
 
-                <CascadingValue Value="@SelectedDetailedLocation">
-                    <CascadingValue Value="@_languageTable">
-                        <RoomTemp></RoomTemp>
-                    </CascadingValue>
-                </CascadingValue>
-            }
-        </div>
-    </div>
+						<Columns>
+							<RadzenDataGridColumn TItem="LocationDTO" Property="Room" Title="Room"></RadzenDataGridColumn>
+						</Columns>
+					</RadzenDataGrid>
+				</RadzenCard>
+				if (SelectedDetailedLocation.Room is not null)
+				{
+					<CascadingValue Value="@SelectedDetailedLocation">
+						<Tempreture></Tempreture>
+					</CascadingValue>
+				}
+			}
+		</div>
+	</div>
 </div> 

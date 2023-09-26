@@ -47,7 +47,7 @@ public class EgonService : IEgonService
         try
         {
             var results = await _egonRepository.GetAllDataReadingsAsync(startTime, endTime);
-            List<DataReadingDTO> dataReadingDTOs = new ();
+            List<DataReadingDTO> dataReadingDTOs = new();
             foreach (var result in results)
             {
                 LocationDTO locationDTO = new LocationDTO();
@@ -64,7 +64,7 @@ public class EgonService : IEgonService
 
                 });
             }
-            
+
             return dataReadingDTOs;
         }
         catch (Exception ex)
@@ -74,19 +74,72 @@ public class EgonService : IEgonService
         }
     }
 
-    public async Task<List<LocationDTO>> GetAllLocationsBySchoolNameAsync(string location)
-    {
-        var results = await _egonRepository.GetAllLocationsBySchoolNameAsync(location);
-        List<LocationDTO> locationsDTO = new();
+	public async Task<List<DataReadingDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO)
+	{
+        locationDTO = await GetLocationIdBySchoolFloorRoomAsync(locationDTO);
+        var results = await _egonRepository.GetAllDataReadingsByLocationIdAsync(locationDTO.LocationId);
+        List<DataReadingDTO> dataReadingDTOs = new();
         foreach (var result in results)
         {
-            locationsDTO.Add(new LocationDTO
-            {
-                School = result.School,
-                Floor = result.Floor,
-                Room = result.Room,
+            dataReadingDTOs.Add(new DataReadingDTO 
+            { 
+                Temperature = result.Temperature, 
+                Humidity = result.Humidity, 
+                SQLTStamp = result.SQLTStamp
             });
         }
-        return locationsDTO;
+        return dataReadingDTOs;
+	}
+
+	public async Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school)
+    {
+        try
+        {
+            var results = await _egonRepository.GetAllLocationsBySchoolAsync(school);
+            List<LocationDTO> locationsDTO = new();
+            foreach (var result in results)
+            {
+                locationsDTO.Add(new LocationDTO
+                {
+                    School = result.School,
+                    Floor = result.Floor,
+                    Room = result.Room,
+                });
+            }
+            return locationsDTO;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "GetAllLocationsBySchoolAsync failed");
+            throw;
+        }
     }
+
+	public async Task<List<LocationDTO>> GetAllRoomsByFloorAsync(int floor)
+	{
+        var results = await _egonRepository.GetAllRoomsByFloorAsync(floor);
+        List<LocationDTO> locationsDTOs = new();
+        foreach (Location result in results)
+        {
+            locationsDTOs.Add(new LocationDTO 
+            { 
+                School = result.School, 
+                Floor = result.Floor, 
+                Room = result.Room
+            });
+        }
+        return locationsDTOs;
+	}
+
+	public async Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO)
+	{
+        Location location = new();
+        location.School = locationDTO.School;
+		location.Floor = locationDTO.Floor;
+		location.Room = locationDTO.Room;
+
+		var results = await _egonRepository.GetLocationIdBySchoolFloorRoomAsync(location);
+        locationDTO.LocationId = results.LocationId;
+        return locationDTO;
+	}
 }
