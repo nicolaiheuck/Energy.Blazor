@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="col-12">
-			@if (SelectedDetailedLocation.Floor != "")
+			@if (!string.IsNullOrWhiteSpace(SelectedDetailedLocation.Floor))
 			{
 				<RadzenCard class="m-3">
 					<RadzenText TextStyle="TextStyle.H6">
@@ -60,7 +60,7 @@
 						</Columns>
 					</RadzenDataGrid>
 				</RadzenCard>
-				if (SelectedDetailedLocation.Room is not null)
+				if (!string.IsNullOrWhiteSpace(SelectedDetailedLocation.Room))
 				{
 					<CascadingValue Value="@SelectedDetailedLocation">
 						<Tempreture></Tempreture>
