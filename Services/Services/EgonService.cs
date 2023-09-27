@@ -17,18 +17,18 @@ public class EgonService : IEgonService
         _logger = logger;
     }
 
-    public async Task AddReadingAsync(MQTTDataReadingDTO? dto, string[]? topics)
+    public async Task AddReadingAsync(MQTTDataReadingDTO dto, string schoolName, string floor, string room)
     {
         try
         {
             ArgumentNullException.ThrowIfNull(dto);
 
-            var school = await _egonRepository.FindSchoolLocationAsync(topics);
-            ArgumentNullException.ThrowIfNull(school);
+            var schoolLocation = await _egonRepository.FindSchoolLocationAsync(schoolName, floor, room);
+            ArgumentNullException.ThrowIfNull(schoolLocation);
 
             DataReading dataReading = new()
             {
-                LocationId = school.LocationId,
+                LocationId = schoolLocation.LocationId,
                 Temperature = dto.Temperature,
                 Humidity = dto.Humidity
             };
@@ -36,15 +36,17 @@ public class EgonService : IEgonService
             PowerReading powerReading = new()
             {
                 KiloWattHour = dto.KiloWattHour,
-                PeakKiloWatt = dto.PeakKiloWatt
+                PeakKiloWatt = dto.PeakKiloWatt,
+                LocationId = schoolLocation.LocationId
             };
 
             await _egonRepository.AddTemperatureReadingAsync(dataReading);
-            await _egonRepository.AddPowerReadingAsync(powerReading, schoolName, floor, room);
+            await _egonRepository.AddPowerReadingAsync(powerReading);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "AddReadingAsync failed");
+            throw;
         }
     }
 
@@ -86,9 +88,9 @@ public class EgonService : IEgonService
         return fagDTOs;
     }
 
-    public async Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, int floor, int room)
+    public async Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, string floor, string room)
     {
-        var schoolId = await _egonRepository.FindSchoolLocationAsync(schoolName);
+        var schoolId = await _egonRepository.FindSchoolLocationAsync(schoolName, floor, room);
         var listOfClasses = await GetAllClassesFromAPIAsync(schoolId.LocationId, 10, 0); // DEBUG Hardcoded limit because of mock API
         var roomInfo = listOfClasses
             .Where(c => c.Location == $"{floor}.{room}")

@@ -1,3 +1,4 @@
+using System.Net.Http.Json;
 using Energy.Repositories.DbContexts;
 using Energy.Repositories.Entities;
 using Energy.Repositories.Interfaces;
@@ -21,17 +22,11 @@ public class EgonRepository : IEgonRepository
         _context.Add(dataReading);
         await _context.SaveChangesAsync();
     }
-
-    public async Task<Location?> FindSchoolLocationAsync(string[]? topicLocations)
-    {
-        return await _context.Locations.FirstOrDefaultAsync(l =>
-            l.School == topicLocations[0] && l.Floor == topicLocations[1] && l.Room == topicLocations[2]);
-    }
     
-    public async Task<Location?> FindSchoolLocationAsync(string? schoolName)
+    public async Task<Location?> FindSchoolLocationAsync(string school, string floor, string room)
     {
         return await _context.Locations.FirstOrDefaultAsync(l =>
-            l.School == schoolName);
+            l.School == school && l.Floor == floor && l.Room == room);
     }
 
     public async Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
@@ -56,17 +51,15 @@ public class EgonRepository : IEgonRepository
         return await apiResult.Content.ReadFromJsonAsync<List<Fag>>() ?? new List<Fag>();
     }
 
-    public async Task AddPowerReadingAsync(PowerReading powerReading, string school, string floor, string room)
+    public async Task AddPowerReadingAsync(PowerReading powerReading)
     {
         //NH_TODO: Ensure works
-        var location = await _context.Locations.FirstAsync(l => l.School == school && l.Floor == floor && l.Room == room);
         powerReading.KW_Day = _context.PowerReadings
             .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
             .Sum(p => p.KiloWattHour);
         powerReading.KW_YearSummarized = _context.PowerReadings
             .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
             .Sum(p => p.KiloWattHour);
-        powerReading.LocationId = location.LocationId; //NH_TODO: Move this logic into service once jan is done with his
         _context.Add(powerReading);
         await _context.SaveChangesAsync();
     }
