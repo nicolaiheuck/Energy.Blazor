@@ -5,6 +5,8 @@
 	"Name": "Navn",
 	"Description": "Beskrivelse",
 	"Equality": "Lighed",
+	"Yes": "Ja",
+	"No": "Nej",
 
 	//Global - Toast Messages
 	"SuccessfullyUpdated": "Opdatering gennemført",
@@ -13,6 +15,9 @@
 	"FailedDelete": "Kunne ikke slette",
 	"SuccessfullyCreated": "Succesfuldt oprettet",
 	"FailedCreate": "Kunne ikke oprette",
+
+	//Global - Modal
+	"DeleteConfirmation": "Er du sikker på du vil slette",
 
 	//Index
 	"HelloWorld": "Hej!"

@@ -17,6 +17,7 @@ using Energy.Infrastructure.IoT.Channels;
 using Energy.Repositories.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
+using Energy.Blazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +72,7 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+builder.Services.AddScoped<IsTaskRunningService>();
 
 builder.RegisterDependencies();
 builder.Services.AddDbContext<EgonContext>(options =>

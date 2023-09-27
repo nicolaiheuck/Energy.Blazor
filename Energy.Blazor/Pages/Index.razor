@@ -1,29 +1,48 @@
 ﻿@page "/"
-@implements IDisposable
-@inject HotKeys HotKeys
-@inject IToastService ToastService
-@inject Toolbelt.Blazor.I18nText.I18nText I18nText
 @attribute [Authorize(Roles = "Admin")]
 
 
 <PageTitle>Home</PageTitle>
 
 <div class="text-center">
-    <h1>@languageTable["HelloWorld"]</h1>
+	<h1>@_languageTable["HelloWorld"]</h1>
+@* 	<RadzenCard>
+	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Temp" ValueProperty="">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="-5" Max="60">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard>
+	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Humid" ValueProperty="">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="0" Max="100">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard>
+	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+		<RadzenChart>
+			<RadzenColumnSeries Data="@" CategoryProperty="Quarter" Title="2020" LineType="LineType.Dashed" ValueProperty="">
+				<RadzenSeriesDataLabels Visible="@true" />
+			</RadzenColumnSeries>
+			<RadzenColumnOptions Radius="5" />
+			<RadzenValueAxis Formatter="@FormatAsUSD">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard> *@
 </div>
 
-@code {
-    HotKeysContext HotKeysContext;
-    I18nText.LanguageTable languageTable = new I18nText.LanguageTable();
-
-    protected override async Task OnInitializedAsync()
-    {
-        languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
-        this.HotKeysContext = this.HotKeys.CreateContext()
-            .Add(Code.F8, Toaster);
-    }
-
-    void Toaster() => ToastService.ShowInfo("Congratulations, you just pressed hotkey: F8");
-
-    public void Dispose() => this.HotKeysContext.Dispose();
-}
