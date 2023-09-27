@@ -10,5 +10,9 @@ public class MQTTDataReadingDTO
     [JsonPropertyName("humidity")]
     public decimal Humidity { get; set; }
     
-    public decimal WattHour { get; set; }
+    [JsonPropertyName("kiloWattHour")]
+    public decimal KiloWattHour { get; set; }
+    
+    [JsonPropertyName("peakKiloWatt")]
+    public decimal PeakKiloWatt { get; set; }
 }

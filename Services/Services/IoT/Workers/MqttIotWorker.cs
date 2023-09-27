@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using Energy.Services.DTO;
 using Energy.Services.Interfaces;
@@ -26,8 +25,7 @@ namespace Energy.Services.Services.IoT.Workers
             _serviceProvider = serviceProvider;
             _logger = logger;
         }
-
-
+        
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             _logger.LogDebug("{name} is starting.", nameof(MqttIotWorker));
@@ -46,8 +44,7 @@ namespace Energy.Services.Services.IoT.Workers
                 await messageTask;
             }
         }
-
-
+        
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogDebug("{name} is stopping.", nameof(MqttIotWorker));
@@ -64,17 +61,19 @@ namespace Energy.Services.Services.IoT.Workers
                 var args = e as MqttApplicationMessageReceivedEventArgs;
                 ArgumentNullException.ThrowIfNull(args);
 
-                var topics = args.ApplicationMessage.Topic.Split("/");
-
+                var school = args.ApplicationMessage.Topic.Split("/")[0];
+                var floor = args.ApplicationMessage.Topic.Split("/")[1];
+                var room = args.ApplicationMessage.Topic.Split("/")[2];
 
                 var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
-                
                 var dataReadingDTO = JsonSerializer.Deserialize<MQTTDataReadingDTO>(payload);
                 _logger.LogDebug("Received message on topic {topic} with payload {@payload}", args.ApplicationMessage.Topic, dataReadingDTO);
+                ArgumentNullException.ThrowIfNull(dataReadingDTO);
+                
                 using var scope = _serviceProvider.CreateScope();
                 var service = scope.ServiceProvider.GetRequiredService<IEgonService>();
 
-                await service.AddReadingAsync(dataReadingDTO, topics);
+                await service.AddReadingAsync(dataReadingDTO, school, floor, room);
             }
             catch (Exception ex)
             {
@@ -100,13 +99,13 @@ namespace Energy.Services.Services.IoT.Workers
                 var jsonString = "";
                 if (topics.Contains("requestlocation"))
                 {
-                    jsonString = JsonSerializer.Serialize<FagDTO>(await service.GetRoomBookingInfoAsync(school, int.Parse(floor), int.Parse(room)));
+                    jsonString = JsonSerializer.Serialize<FagDTO>(await service.GetRoomBookingInfoAsync(school, floor, room));
                 };
                 await _mqttIotService.PublishAsync($"{school}/{floor}/{room}/location", jsonString, new CancellationToken());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "OnEgonDataMessageReceived failed");
+                _logger.LogError(ex, "OnLocationDataMessageReceived failed");
             }
         }
     }

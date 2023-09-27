@@ -5,15 +5,12 @@ namespace Energy.Services.Interfaces;
 
 public interface IEgonService
 {
-    Task AddReadingAsync(MQTTDataReadingDTO? dto, string? schoolName);
+    Task<List<FagDTO>> GetAllClassesFromAPIAsync(int schoolId, int limit, int offset = 0);
+    Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, string floor, string room);
+    Task AddReadingAsync(MQTTDataReadingDTO dataReadingDto, string school, string floor, string room);
     Task<List<DataReadingDTO>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
     Task<List<DataReadingDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO);
     Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school);
-    Task<List<LocationDTO>> GetAllRoomsByFloorAsync(int floor);
+    Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor);
     Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO);
-    Task AddReadingAsync(MQTTDataReadingDTO? dto, string[]? topics);
-    Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
-    Task<List<FagDTO>> GetAllClassesFromAPIAsync(int schoolId, int limit, int offset = 0);
-    Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, int floor, int room);
-
 }
