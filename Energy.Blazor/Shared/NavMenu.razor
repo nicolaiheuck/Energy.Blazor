@@ -1,6 +1,6 @@
 ﻿@inject DialogService DialogService
 
-<div class="top-row ps-3 navbar" style="background-color: #D7D7D7; max-height: 50px">
+<div class="top-row ps-3 navbar" style="background-color: white; max-height: 50px">
     <div class="container-fluid row">
         <div class="col-10">
             <a href="#" aria-label="Home page">
@@ -13,6 +13,9 @@
 
     <AuthorizeView Roles="Admin">
         <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
+        <RadzenPanelMenuItem Text="Temp" Path="/temp" Icon="thermostat"></RadzenPanelMenuItem>
+        <RadzenPanelMenuItem Text="Humid" Path="/humid" Icon="dew_point"></RadzenPanelMenuItem>
+        <RadzenPanelMenuItem Text="Power" Path="/power" Icon="electrical_services"></RadzenPanelMenuItem>
     </AuthorizeView>
 
     @*     <AuthorizeView Roles=""> *@

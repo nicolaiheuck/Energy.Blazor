@@ -28,7 +28,34 @@ public class EgonRepository : IEgonRepository
         return await _context.Locations.FirstOrDefaultAsync(l =>
             l.School == school && l.Floor == floor && l.Room == room);
     }
+    
+    public async Task<List<Location>> GetAllLocationsBySchoolAsync(string location)
+    {
+        return await _context.Locations
+            .Where(d => d.School == location)
+            .ToListAsync();
+    }
 
+    public async Task<Location?> GetLocationIdBySchoolFloorRoomAsync(Location location)
+    {
+          return await _context.Locations.FirstOrDefaultAsync(d => d.School == location.School && d.Floor == location.Floor && d.Room == location.Room);
+    }
+    
+    //NH_TODO: Check if this breaks anything
+    public async Task<List<Location>> GetAllRoomsByFloorAsync(string floor)
+    {
+      return await _context.Locations
+         .Where(d => d.Floor == floor)
+         .ToListAsync();
+    }
+    
+    public async Task<List<DataReading>> GetAllDataReadingsByLocationIdAsync(int locationId)
+    {
+      return await _context.DataReadings
+        .Where(d => d.LocationId == locationId)
+        .ToListAsync();
+    }
+    
     public async Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
     {
         return await _context.DataReadings
