@@ -34,6 +34,7 @@ namespace Energy.Blazor.Pages.Temp
         private RadzenDataGrid<LocationDTO>? _locationInformationGrid;
         private List<LocationDTO> _locationInformationFloor = new();
         private List<LocationDTO> _locationInformationRoom = new();
+        private ThermostatSettingsDTO _thermostatSettings = new();
 
         private HotKeysContext? _hotKeysContext;
         private I18nText.LanguageTable _languageTable = new();
@@ -83,6 +84,15 @@ namespace Energy.Blazor.Pages.Temp
 			_locationInformationFloor = await EgonService.GetAllLocationsBySchoolAsync("EUC");
 			IsTaskRunningService.IsTaskRunning = false;
 		}
+
+        private async Task NewSettingsSubmitAsync()
+        {
+            //NH_TODO: Change to real data
+            _thermostatSettings.School = "EUC";
+            _thermostatSettings.Floor = "51";
+            _thermostatSettings.Room = "244";
+            await EgonService.SetThermostatSettingsAsync(_thermostatSettings);
+        }
 
 
 		void Toaster()
