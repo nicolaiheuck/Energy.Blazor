@@ -13,11 +13,12 @@ namespace Energy.Infrastructure.IoT
     public class MqttIotService : IMqttIotService
     {
         public event EventHandler<EventArgs>? SubscribeToEgonData;
+        public event EventHandler<EventArgs>? SubscribeToLocationData;
 
         private readonly IMqttService _mqttService;
         private readonly ILogger<MqttIotService> _logger;
         private const string _BaseUrlPub = "energy/pub/";
-        private const string _BaseUrlSub = "+/+/+/pv/";
+        private const string _BaseUrlSub = "+/+/+/pv/#";
 
         private const string _egonDataEndpointTopic = "data";
 
@@ -38,7 +39,7 @@ namespace Energy.Infrastructure.IoT
             Func<MqttApplicationMessageReceivedEventArgs, Task> func = new(OnMessageReceivedIotAsync);
             _mqttService.HandleReceivedApplicationMessage(func);
 
-            await _mqttService.SubscribeAsync(_BaseUrlSub + _egonDataEndpointTopic);
+            await _mqttService.SubscribeAsync(_BaseUrlSub);
         }
 
         public Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -46,6 +47,10 @@ namespace Energy.Infrastructure.IoT
             if (args.ApplicationMessage.Topic.EndsWith("/pv/data"))
             {
                 SubscribeToEgonData?.Invoke(this, args);
+            }
+            else if (args.ApplicationMessage.Topic.EndsWith("/location"))
+            {
+                SubscribeToLocationData?.Invoke(this, args);
             }
             else
             {
@@ -60,6 +65,11 @@ namespace Energy.Infrastructure.IoT
         {
             var payload = JsonSerializer.Serialize(command);
             return _mqttService.PublishAsync($"{_BaseUrlPub}{_egonDataEndpointTopic}", payload, cancellationToken);
+        }
+
+        public async Task PublishAsync(string topic, string payload, CancellationToken cancellationToken)
+        {
+            await _mqttService.PublishAsync(topic, payload, cancellationToken);
         }
     }
 }
