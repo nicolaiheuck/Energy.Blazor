@@ -1,12 +1,9 @@
 using Blazored.Modal;
 using Blazored.Toast;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Localization;
 using Radzen;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using Energy.Blazor.Extensions;
-using Microsoft.Extensions.Configuration;
 using Energy.Services.Services.IoT.Workers;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Channels;
@@ -17,6 +14,8 @@ using Energy.Infrastructure.Mqtt.Configuration;
 using Energy.Infrastructure.Mqtt.Services;
 using Energy.Infrastructure.IoT;
 using Energy.Infrastructure.IoT.Channels;
+using Energy.Repositories.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,7 +71,16 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+
 builder.RegisterDependencies();
+builder.Services.AddDbContext<EgonContext>(options =>
+{
+    options.UseMySql(builder.Configuration.GetConnectionString("EgonDb"), new MySqlServerVersion(new Version(10, 9, 0)), options => options.EnableRetryOnFailure(15));
+});
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddSeq(builder.Configuration.GetSection("Seq"));
+});
 
 var app = builder.Build();
 

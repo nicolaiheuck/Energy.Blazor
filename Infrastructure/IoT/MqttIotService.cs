@@ -1,33 +1,32 @@
-﻿using Energy.Infrastructure.Mqtt.Services;
+﻿using System.Text;
+using Energy.Infrastructure.Mqtt.Services;
 using Energy.Repositories;
 using Energy.Services.Interfaces;
 using Energy.Services.Services.IoT.Commands;
 using MQTTnet.Client;
-using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace Energy.Infrastructure.IoT
 {
     [IgnoreService]
     public class MqttIotService : IMqttIotService
     {
-        // Unload
-        public event EventHandler<EventArgs>? SubscribeToTest;
-
+        public event EventHandler<EventArgs>? SubscribeToEgonData;
+        public event EventHandler<EventArgs>? SubscribeToLocationData;
 
         private readonly IMqttService _mqttService;
+        private readonly ILogger<MqttIotService> _logger;
         private const string _BaseUrlPub = "energy/pub/";
-        private const string _BaseUrlSub = "energy/sub/";
+        private const string _BaseUrlSub = "+/+/+/pv/#";
 
-        private const string _testEndpointTopic = "test";
+        private const string _egonDataEndpointTopic = "data";
 
-
-
-        public MqttIotService(IMqttService mqttService)
+        public MqttIotService(IMqttService mqttService, ILogger<MqttIotService> logger)
         {
             _mqttService = mqttService;
+            _logger = logger;
         }
-
 
         public async Task IotConnectAndSubscribeAsync(CancellationToken cancellationToken)
         {
@@ -40,35 +39,37 @@ namespace Energy.Infrastructure.IoT
             Func<MqttApplicationMessageReceivedEventArgs, Task> func = new(OnMessageReceivedIotAsync);
             _mqttService.HandleReceivedApplicationMessage(func);
 
-            await _mqttService.SubscribeAsync(_BaseUrlSub + _testEndpointTopic);
-
+            await _mqttService.SubscribeAsync(_BaseUrlSub);
         }
-
 
         public Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            switch (args.ApplicationMessage.Topic)
+            if (args.ApplicationMessage.Topic.EndsWith("/pv/data"))
             {
-                // Unload
-                case _BaseUrlSub + _testEndpointTopic:
-                    //_logger.LogDebug($"Received MQTT message on topic:: {args.ApplicationMessage.Topic}, with payload: {Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment)}");
-                    SubscribeToTest?.Invoke(this, new EventArgs());
-                    break;
-
-                default:
-                    //_logger.LogWarning($"No Handerler for received MQTT message on topic:: {args.ApplicationMessage.Topic}, with payload: {Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment)}");
-                    break;
+                SubscribeToEgonData?.Invoke(this, args);
             }
-
+            else if (args.ApplicationMessage.Topic.EndsWith("/location"))
+            {
+                SubscribeToLocationData?.Invoke(this, args);
+            }
+            else
+            {
+                var payload = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
+                _logger.LogWarning("Received MQTT message on topic {topic} but doesn't know how to process it. Payload: {payload}", args.ApplicationMessage.Topic, payload);
+            }
+            
             return Task.CompletedTask;
         }
-
-
 
         public Task PublishTestAsync(TestCommand command, CancellationToken cancellationToken)
         {
             var payload = JsonSerializer.Serialize(command);
-            return _mqttService.PublishAsync($"{_BaseUrlPub}{_testEndpointTopic}", payload, cancellationToken);
+            return _mqttService.PublishAsync($"{_BaseUrlPub}{_egonDataEndpointTopic}", payload, cancellationToken);
+        }
+
+        public async Task PublishAsync(string topic, string payload, CancellationToken cancellationToken)
+        {
+            await _mqttService.PublishAsync(topic, payload, cancellationToken);
         }
     }
 }
