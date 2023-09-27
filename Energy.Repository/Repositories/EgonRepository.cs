@@ -41,7 +41,6 @@ public class EgonRepository : IEgonRepository
           return await _context.Locations.FirstOrDefaultAsync(d => d.School == location.School && d.Floor == location.Floor && d.Room == location.Room);
     }
     
-    //NH_TODO: Check if this breaks anything
     public async Task<List<Location>> GetAllRoomsByFloorAsync(string floor)
     {
       return await _context.Locations
@@ -80,7 +79,6 @@ public class EgonRepository : IEgonRepository
 
     public async Task AddPowerReadingAsync(PowerReading powerReading)
     {
-        //NH_TODO: Ensure works
         powerReading.KW_Day = _context.PowerReadings
             .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
             .Sum(p => p.KiloWattHour);

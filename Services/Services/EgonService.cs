@@ -124,7 +124,7 @@ public class EgonService : IEgonService
           }
       }
 
-    public async Task<List<LocationDTO>> GetAllRoomsByFloorAsync(int floor)
+    public async Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor)
     {
           var results = await _egonRepository.GetAllRoomsByFloorAsync(floor);
           List<LocationDTO> locationsDTOs = new();

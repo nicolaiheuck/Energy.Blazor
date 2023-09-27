@@ -11,6 +11,6 @@ public interface IEgonService
     Task<List<DataReadingDTO>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
     Task<List<DataReadingDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO);
     Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school);
-    Task<List<LocationDTO>> GetAllRoomsByFloorAsync(int floor);
+    Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor);
     Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO);
 }
