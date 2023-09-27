@@ -11,7 +11,7 @@ namespace Energy.Infrastructure.Mqtt.Services
         Task UnsubscribeAsync(string topic);
         Task ConnectAsync(CancellationToken cancellationToken);
         bool IsConnected();
-        Task PublishAsync(string topic, string payload, CancellationToken cancellationToken);
+        Task PublishAsync(string topic, string payload, CancellationToken cancellationToken, bool retain = false);
         void HandleReceivedApplicationMessage(Func<MqttApplicationMessageReceivedEventArgs, Task> func);
     }
 }

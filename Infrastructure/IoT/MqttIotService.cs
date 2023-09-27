@@ -17,10 +17,7 @@ namespace Energy.Infrastructure.IoT
 
         private readonly IMqttService _mqttService;
         private readonly ILogger<MqttIotService> _logger;
-        private const string _BaseUrlPub = "energy/pub/";
-        private const string _BaseUrlSub = "+/+/+/pv/#";
-
-        private const string _egonDataEndpointTopic = "data";
+        private const string _baseUrlSub = "+/+/+/pv/#";
 
         public MqttIotService(IMqttService mqttService, ILogger<MqttIotService> logger)
         {
@@ -39,10 +36,10 @@ namespace Energy.Infrastructure.IoT
             Func<MqttApplicationMessageReceivedEventArgs, Task> func = new(OnMessageReceivedIotAsync);
             _mqttService.HandleReceivedApplicationMessage(func);
 
-            await _mqttService.SubscribeAsync(_BaseUrlSub);
+            await _mqttService.SubscribeAsync(_baseUrlSub);
         }
 
-        public Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
+        private Task OnMessageReceivedIotAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             if (args.ApplicationMessage.Topic.EndsWith("/pv/data"))
             {
@@ -61,10 +58,10 @@ namespace Energy.Infrastructure.IoT
             return Task.CompletedTask;
         }
 
-        public Task PublishTestAsync(TestCommand command, CancellationToken cancellationToken)
+        public Task PublishSetThermostatSettingsAsync(SetThermostatSettingsCommand command, CancellationToken cancellationToken)
         {
             var payload = JsonSerializer.Serialize(command);
-            return _mqttService.PublishAsync($"{_BaseUrlPub}{_egonDataEndpointTopic}", payload, cancellationToken);
+            return _mqttService.PublishAsync($"{command.School}/{command.Floor}/{command.Room}/sp/thermostat", payload, cancellationToken, retain: true);
         }
 
         public async Task PublishAsync(string topic, string payload, CancellationToken cancellationToken)
