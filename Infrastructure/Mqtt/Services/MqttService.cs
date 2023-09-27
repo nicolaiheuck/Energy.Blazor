@@ -101,21 +101,21 @@ namespace Energy.Infrastructure.Mqtt.Services
         }
 
 
-        private static MqttApplicationMessage ConvertToMqttMessage(string topic, byte[] payload)
+        private static MqttApplicationMessage ConvertToMqttMessage(string topic, byte[] payload, bool retain)
         {
             return new MqttApplicationMessage()
             {
                 Topic = topic,
                 PayloadSegment = payload,
-                Retain = false,
+                Retain = retain,
                 QualityOfServiceLevel = MqttQualityOfServiceLevel.ExactlyOnce
             };
         }
 
 
-        public async Task PublishAsync(string topic, string payload, CancellationToken cancellationToken)
+        public async Task PublishAsync(string topic, string payload, CancellationToken cancellationToken, bool retain = false)
         {
-            var message = ConvertToMqttMessage(topic, Encoding.UTF8.GetBytes(payload));
+            var message = ConvertToMqttMessage(topic, Encoding.UTF8.GetBytes(payload), retain);
             await EnqueueAsync(message, cancellationToken);
         }
 
