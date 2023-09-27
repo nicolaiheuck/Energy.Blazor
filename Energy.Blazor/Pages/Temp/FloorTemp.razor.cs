@@ -87,10 +87,9 @@ namespace Energy.Blazor.Pages.Temp
 
         private async Task NewSettingsSubmitAsync()
         {
-            //NH_TODO: Change to real data
-            _thermostatSettings.School = "EUC";
-            _thermostatSettings.Floor = "51";
-            _thermostatSettings.Room = "244";
+            _thermostatSettings.School = SelectedDetailedLocation.School;
+            _thermostatSettings.Floor = SelectedDetailedLocation.Floor;
+            _thermostatSettings.Room = SelectedDetailedLocation.Room;
             await EgonService.SetThermostatSettingsAsync(_thermostatSettings);
         }
 
