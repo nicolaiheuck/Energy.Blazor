@@ -181,10 +181,10 @@ public class EgonService : IEgonService
         return roomInfo;
     }
 
-    public async Task<List<TelemetryDTO>> GetAveragedTelemetryAsync(string schoolName, DateTime startDate, DateTime endDate)
+    public async Task<List<TelemetryDTO>> GetAveragedTelemetryAsync(DateTime startDate, DateTime endDate, string schoolName, string? floor = null, bool byHour = false)
     {
-        var locationsInSchool = await _egonRepository.GetAllLocationsBySchoolAsync(schoolName);
-        var readings = await _egonRepository.GetAveragedTelemetryAsync(startDate, endDate, locationsInSchool);
+        var locations = floor != null ? await _egonRepository.GetAllRoomsByFloorAsync(floor) : await _egonRepository.GetAllLocationsBySchoolAsync(schoolName);
+        var readings = await _egonRepository.GetAveragedTelemetryAsync(startDate, endDate, locations, byHour);
         
         return readings.Select(r => new TelemetryDTO
         {
