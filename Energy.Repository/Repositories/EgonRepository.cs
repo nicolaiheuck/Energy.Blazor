@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Net.Http.Json;
 using Energy.Repositories.DbContexts;
 using Energy.Repositories.Entities;
@@ -21,10 +20,12 @@ public class EgonRepository : IEgonRepository
     public async Task AddReadingAsync(Telemetry telemetry)
     {
         telemetry.KW_Day = _context.Telemetry
+                                   .AsNoTracking()
                                    .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
                                    .Sum(p => p.KiloWattHour);
 
         telemetry.KW_YearSummarized = _context.Telemetry
+                                              .AsNoTracking()
                                               .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
                                               .Sum(p => p.KiloWattHour);
         _context.Add(telemetry);
@@ -33,9 +34,10 @@ public class EgonRepository : IEgonRepository
     
     public async Task<Location?> FindSchoolLocationAsync(string school, string floor, string room)
     {
-        return await _context.Locations.FirstOrDefaultAsync(l =>
+        return await _context.Locations.AsNoTracking().FirstOrDefaultAsync(l =>
             l.School == school && l.Floor == floor && l.Room == room);
     }
+
     public async Task<List<Location>> GetAllLocationsBySchoolAsync(string location)
     {
         return await _context.Locations
@@ -46,19 +48,22 @@ public class EgonRepository : IEgonRepository
 
     public async Task<Location?> GetLocationIdBySchoolFloorRoomAsync(Location location)
     {
-          return await _context.Locations.FirstOrDefaultAsync(d => d.School == location.School && d.Floor == location.Floor && d.Room == location.Room);
+        return await _context.Locations.AsNoTracking().FirstOrDefaultAsync(d =>
+            d.School == location.School && d.Floor == location.Floor && d.Room == location.Room);
     }
-    
+
     public async Task<List<Location>> GetAllRoomsByFloorAsync(string floor)
     {
-      return await _context.Locations
-         .Where(d => d.Floor == floor)
-         .ToListAsync();
+        return await _context.Locations
+            .AsNoTracking()
+            .Where(d => d.Floor == floor)
+            .ToListAsync();
     }
     
     public async Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId)
     {
       return await _context.Telemetry
+        .AsNoTracking()
         .Where(d => d.LocationId == locationId)
         .ToListAsync();
     }
@@ -66,6 +71,7 @@ public class EgonRepository : IEgonRepository
     public async Task<List<Telemetry>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
     {
         return await _context.Telemetry
+            .AsNoTracking()
             .Where(d => d.SQLTStamp >= startTime && d.SQLTStamp <= endTime)
             .ToListAsync();
     }

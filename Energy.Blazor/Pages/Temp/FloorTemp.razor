@@ -65,6 +65,15 @@
 					<CascadingValue Value="@SelectedDetailedLocation">
 						<Tempreture></Tempreture>
 					</CascadingValue>
+					
+					<RadzenCard class="m-3">
+						<RadzenText TextStyle="TextStyle.H6">
+							Settings
+						</RadzenText>
+						<RadzenTextBox @bind-Value="_thermostatSettings.NewTemperature" Placeholder="New temperature"></RadzenTextBox><br />
+					<RadzenTextBox @bind-Value="_thermostatSettings.NewHysteresis" Placeholder="New Hysteresis"></RadzenTextBox><br />
+						<RadzenButton Click="NewSettingsSubmitAsync">Submit</RadzenButton>
+					</RadzenCard>
 				}
 			}
 		</div>
