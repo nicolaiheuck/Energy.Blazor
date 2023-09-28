@@ -38,7 +38,7 @@ namespace Energy.Services.Services.IoT.Workers
             {
                 Task messageTask = message switch
                 {
-                    TestCommand msg => _mqttIotService.PublishTestAsync(msg, cancellationToken),
+                    SetThermostatSettingsCommand command => _mqttIotService.PublishSetThermostatSettingsAsync(command, cancellationToken),
                     _ => throw new NotSupportedException()
                 };
                 await messageTask;
