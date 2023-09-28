@@ -27,22 +27,16 @@ public class EgonService : IEgonService
             var schoolLocation = await _egonRepository.FindSchoolLocationAsync(schoolName, floor, room);
             ArgumentNullException.ThrowIfNull(schoolLocation);
 
-            DataReading dataReading = new()
+            Telemetry telemetry = new()
             {
                 LocationId = schoolLocation.LocationId,
                 Temperature = dto.Temperature,
-                Humidity = dto.Humidity
-            };
-
-            PowerReading powerReading = new()
-            {
+                Humidity = dto.Humidity,
                 KiloWattHour = dto.KiloWattHour,
                 PeakKiloWatt = dto.PeakKiloWatt,
-                LocationId = schoolLocation.LocationId
             };
 
-            await _egonRepository.AddTemperatureReadingAsync(dataReading);
-            await _egonRepository.AddPowerReadingAsync(powerReading);
+            await _egonRepository.AddReadingAsync(telemetry);
         }
         catch (Exception ex)
         {
@@ -51,12 +45,12 @@ public class EgonService : IEgonService
         }
     }
 
-    public async Task<List<DataReadingDTO>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
+    public async Task<List<TelemetryDTO>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
     {
         try
         {
             var results = await _egonRepository.GetAllDataReadingsAsync(startTime, endTime);
-            List<DataReadingDTO> dataReadingDTOs = new();
+            List<TelemetryDTO> dataReadingDTOs = new();
             foreach (var result in results)
             {
                 LocationDTO locationDTO = new LocationDTO();
@@ -64,7 +58,7 @@ public class EgonService : IEgonService
                 locationDTO.Floor = result.Location.Floor;
                 locationDTO.Room = result.Location.Room;
 
-                dataReadingDTOs.Add(new DataReadingDTO
+                dataReadingDTOs.Add(new TelemetryDTO
                 {
                     Temperature = result.Temperature,
                     Humidity = result.Humidity,
@@ -83,14 +77,14 @@ public class EgonService : IEgonService
         }
     }
 
-    public async Task<List<DataReadingDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO)
+    public async Task<List<TelemetryDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO)
     {
           locationDTO = await GetLocationIdBySchoolFloorRoomAsync(locationDTO);
           var results = await _egonRepository.GetAllDataReadingsByLocationIdAsync(locationDTO.LocationId);
-          List<DataReadingDTO> dataReadingDTOs = new();
+          List<TelemetryDTO> dataReadingDTOs = new();
           foreach (var result in results)
           {
-              dataReadingDTOs.Add(new DataReadingDTO 
+              dataReadingDTOs.Add(new TelemetryDTO
               { 
                   Temperature = result.Temperature, 
                   Humidity = result.Humidity, 
@@ -187,12 +181,12 @@ public class EgonService : IEgonService
         return roomInfo;
     }
 
-    public async Task<List<DataReadingDTO>> GetAverageDataReadingUsageAsync(string schoolName, DateTime startDate, DateTime endDate)
+    public async Task<List<TelemetryDTO>> GetAveragedTelemetryAsync(string schoolName, DateTime startDate, DateTime endDate)
     {
         var locationsInSchool = await _egonRepository.GetAllLocationsBySchoolAsync(schoolName);
-        var readings = await _egonRepository.GetAverageCombinedUsageAsync(startDate, endDate, locationsInSchool);
+        var readings = await _egonRepository.GetAveragedTelemetryAsync(startDate, endDate, locationsInSchool);
         
-        return readings.Select(r => new DataReadingDTO
+        return readings.Select(r => new TelemetryDTO
         {
             Temperature = r.Temperature,
             Humidity = r.Humidity,

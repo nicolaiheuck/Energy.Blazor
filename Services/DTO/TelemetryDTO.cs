@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Energy.Services.DTO;
 
-public class DataReadingDTO
+public class TelemetryDTO
 {
     public decimal Temperature { get; set; }
     public decimal Humidity { get; set; }

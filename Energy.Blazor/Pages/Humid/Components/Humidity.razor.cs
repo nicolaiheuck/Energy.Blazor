@@ -24,7 +24,7 @@ namespace Energy.Blazor.Pages.Humid.Components
 		public LocationDTO SelectedDetailedLocation { get; set; }
 
 
-		private List<DataReadingDTO> _dataReadingDTO = new();
+		private List<TelemetryDTO> _dataReadingDTO = new();
 		private HotKeysContext? _hotKeysContext;
 		private I18nText.LanguageTable _languageTable = new();
 

@@ -18,9 +18,16 @@ public class EgonRepository : IEgonRepository
         _httpClient = httpClient;
     }
 
-    public async Task AddTemperatureReadingAsync(DataReading dataReading)
+    public async Task AddReadingAsync(Telemetry telemetry)
     {
-        _context.Add(dataReading);
+        telemetry.KW_Day = _context.Telemetry
+                                   .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
+                                   .Sum(p => p.KiloWattHour);
+
+        telemetry.KW_YearSummarized = _context.Telemetry
+                                              .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
+                                              .Sum(p => p.KiloWattHour);
+        _context.Add(telemetry);
         await _context.SaveChangesAsync();
     }
     
@@ -49,16 +56,16 @@ public class EgonRepository : IEgonRepository
          .ToListAsync();
     }
     
-    public async Task<List<DataReading>> GetAllDataReadingsByLocationIdAsync(int locationId)
+    public async Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId)
     {
-      return await _context.DataReadings
+      return await _context.Telemetry
         .Where(d => d.LocationId == locationId)
         .ToListAsync();
     }
     
-    public async Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
+    public async Task<List<Telemetry>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
     {
-        return await _context.DataReadings
+        return await _context.Telemetry
             .Where(d => d.SQLTStamp >= startTime && d.SQLTStamp <= endTime)
             .ToListAsync();
     }
@@ -78,50 +85,23 @@ public class EgonRepository : IEgonRepository
         return await apiResult.Content.ReadFromJsonAsync<List<Fag>>() ?? new List<Fag>();
     }
 
-    public async Task AddPowerReadingAsync(PowerReading powerReading)
-    {
-        powerReading.KW_Day = _context.PowerReadings
-            .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
-            .Sum(p => p.KiloWattHour);
-        powerReading.KW_YearSummarized = _context.PowerReadings
-            .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
-            .Sum(p => p.KiloWattHour);
-        _context.Add(powerReading);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<List<JoinedPowerHumidityTemperature>> GetAverageCombinedUsageAsync(DateTime startDate, DateTime endDate, List<Location> locationsInSchool)
+    public async Task<List<Telemetry>> GetAveragedTelemetryAsync(DateTime startDate, DateTime endDate, List<Location> locationsInSchool)
     {
         //NH_TODO: Add group by hour support
         var locationIds = locationsInSchool.Select(l => l.LocationId).ToList();
-        Stopwatch watch = Stopwatch.StartNew();
-        var a = await _context.DataReadings
-            .AsNoTracking()
-            .Where(d => locationIds.Contains(d.LocationId))
-            .Where(d => d.SQLTStamp > startDate && d.SQLTStamp < endDate)
-            .Join(_context.PowerReadings,
-                d => d.LocationId,
-                p => p.LocationId,
-                (d, p) => new JoinedPowerHumidityTemperature
-                {
-                    LocationId = d.LocationId,
-                    Temperature = d.Temperature,
-                    Humidity = d.Humidity,
-                    SQLTStamp = d.SQLTStamp,
-                    KiloWattHour = p.KiloWattHour
-                })
-            .GroupBy(d => d.SQLTStamp.Date)
-            .Select(grouping => new JoinedPowerHumidityTemperature
-            {
-                SQLTStamp = grouping.Key,
-                Temperature = grouping.Average(r => r.Temperature),
-                Humidity = grouping.Average(r => r.Humidity),
-                KiloWattHour = grouping.Average(r => r.KiloWattHour),
-            })
-            .ToListAsync();
-        watch.Stop();
-        Console.WriteLine(watch.ElapsedMilliseconds);
 
-        return a;
+        return await _context.Telemetry
+                             .AsNoTracking()
+                             .Where(d => locationIds.Contains(d.LocationId))
+                             .Where(d => d.SQLTStamp > startDate && d.SQLTStamp < endDate)
+                             .GroupBy(d => d.SQLTStamp.Date)
+                             .Select(grouping => new Telemetry
+                             {
+                                 SQLTStamp = grouping.Key,
+                                 Temperature = grouping.Average(r => r.Temperature),
+                                 Humidity = grouping.Average(r => r.Humidity),
+                                 KiloWattHour = grouping.Average(r => r.KiloWattHour)
+                             })
+                             .ToListAsync();
     }
 }
