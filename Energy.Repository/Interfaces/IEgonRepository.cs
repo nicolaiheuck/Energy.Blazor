@@ -13,4 +13,5 @@ public interface IEgonRepository
     Task<List<Location>> GetAllRoomsByFloorAsync(string floor);
     Task<Location?> GetLocationIdBySchoolFloorRoomAsync(Location location);
     Task<List<Fag>> GetAllClassesOnSchoolAsync(int schoolId, int limit, int offset = 0);
+    Task<List<JoinedPowerHumidityTemperature>> GetAverageCombinedUsageAsync(DateTime startDate, DateTime endDate, List<Location> locationsInSchool);
 }

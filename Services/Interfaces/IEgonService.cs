@@ -13,4 +13,5 @@ public interface IEgonService
     Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school);
     Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor);
     Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO);
+    Task<List<DataReadingDTO>> GetAverageDataReadingUsageAsync(string schoolName, DateTime startDate, DateTime endDate);
 }

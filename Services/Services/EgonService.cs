@@ -186,4 +186,19 @@ public class EgonService : IEgonService
 
         return roomInfo;
     }
+
+    public async Task<List<DataReadingDTO>> GetAverageDataReadingUsageAsync(string schoolName, DateTime startDate, DateTime endDate)
+    {
+        var locationsInSchool = await _egonRepository.GetAllLocationsBySchoolAsync(schoolName);
+        var readings = await _egonRepository.GetAverageCombinedUsageAsync(startDate, endDate, locationsInSchool);
+        
+        return readings.Select(r => new DataReadingDTO
+        {
+            Temperature = r.Temperature,
+            Humidity = r.Humidity,
+            LocationId = r.LocationId,
+            SQLTStamp = r.SQLTStamp,
+            KiloWattHour = r.KiloWattHour
+        }).ToList();
+    }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http.Json;
 using Energy.Repositories.DbContexts;
 using Energy.Repositories.Entities;
@@ -28,10 +29,10 @@ public class EgonRepository : IEgonRepository
         return await _context.Locations.FirstOrDefaultAsync(l =>
             l.School == school && l.Floor == floor && l.Room == room);
     }
-    
     public async Task<List<Location>> GetAllLocationsBySchoolAsync(string location)
     {
         return await _context.Locations
+            .AsNoTracking()
             .Where(d => d.School == location)
             .ToListAsync();
     }
@@ -87,5 +88,40 @@ public class EgonRepository : IEgonRepository
             .Sum(p => p.KiloWattHour);
         _context.Add(powerReading);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<JoinedPowerHumidityTemperature>> GetAverageCombinedUsageAsync(DateTime startDate, DateTime endDate, List<Location> locationsInSchool)
+    {
+        //NH_TODO: Add group by hour support
+        var locationIds = locationsInSchool.Select(l => l.LocationId).ToList();
+        Stopwatch watch = Stopwatch.StartNew();
+        var a = await _context.DataReadings
+            .AsNoTracking()
+            .Where(d => locationIds.Contains(d.LocationId))
+            .Where(d => d.SQLTStamp > startDate && d.SQLTStamp < endDate)
+            .Join(_context.PowerReadings,
+                d => d.LocationId,
+                p => p.LocationId,
+                (d, p) => new JoinedPowerHumidityTemperature
+                {
+                    LocationId = d.LocationId,
+                    Temperature = d.Temperature,
+                    Humidity = d.Humidity,
+                    SQLTStamp = d.SQLTStamp,
+                    KiloWattHour = p.KiloWattHour
+                })
+            .GroupBy(d => d.SQLTStamp.Date)
+            .Select(grouping => new JoinedPowerHumidityTemperature
+            {
+                SQLTStamp = grouping.Key,
+                Temperature = grouping.Average(r => r.Temperature),
+                Humidity = grouping.Average(r => r.Humidity),
+                KiloWattHour = grouping.Average(r => r.KiloWattHour),
+            })
+            .ToListAsync();
+        watch.Stop();
+        Console.WriteLine(watch.ElapsedMilliseconds);
+
+        return a;
     }
 }
