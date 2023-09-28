@@ -13,5 +13,5 @@ public interface IEgonService
     Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school);
     Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor);
     Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO);
-    Task<List<TelemetryDTO>> GetAveragedTelemetryAsync(string schoolName, DateTime startDate, DateTime endDate);
+    Task<List<TelemetryDTO>> GetAveragedTelemetryAsync(DateTime startDate, DateTime endDate, string schoolName, string? floor = null, bool byHour = false);
 }
