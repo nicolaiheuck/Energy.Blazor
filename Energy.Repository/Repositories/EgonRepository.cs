@@ -17,12 +17,21 @@ public class EgonRepository : IEgonRepository
         _httpClient = httpClient;
     }
 
-    public async Task AddTemperatureReadingAsync(DataReading dataReading)
+    public async Task AddReadingAsync(Telemetry telemetry)
     {
-        _context.Add(dataReading);
+        telemetry.KW_Day = _context.Telemetry
+                                   .AsNoTracking()
+                                   .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
+                                   .Sum(p => p.KiloWattHour);
+
+        telemetry.KW_YearSummarized = _context.Telemetry
+                                              .AsNoTracking()
+                                              .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
+                                              .Sum(p => p.KiloWattHour);
+        _context.Add(telemetry);
         await _context.SaveChangesAsync();
     }
-
+    
     public async Task<Location?> FindSchoolLocationAsync(string school, string floor, string room)
     {
         return await _context.Locations.AsNoTracking().FirstOrDefaultAsync(l =>
@@ -50,18 +59,18 @@ public class EgonRepository : IEgonRepository
             .Where(d => d.Floor == floor)
             .ToListAsync();
     }
-
-    public async Task<List<DataReading>> GetAllDataReadingsByLocationIdAsync(int locationId)
+    
+    public async Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId)
     {
-        return await _context.DataReadings
-            .AsNoTracking()
-            .Where(d => d.LocationId == locationId)
-            .ToListAsync();
+      return await _context.Telemetry
+        .AsNoTracking()
+        .Where(d => d.LocationId == locationId)
+        .ToListAsync();
     }
-
-    public async Task<List<DataReading>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
+    
+    public async Task<List<Telemetry>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime)
     {
-        return await _context.DataReadings
+        return await _context.Telemetry
             .AsNoTracking()
             .Where(d => d.SQLTStamp >= startTime && d.SQLTStamp <= endTime)
             .ToListAsync();
@@ -78,21 +87,25 @@ public class EgonRepository : IEgonRepository
             null); // TODO FIX URL TO API
 
         var debug = await apiResult.Content.ReadAsStringAsync();
-
+        
         return await apiResult.Content.ReadFromJsonAsync<List<Fag>>() ?? new List<Fag>();
     }
 
-    public async Task AddPowerReadingAsync(PowerReading powerReading)
+    public async Task<List<Telemetry>> GetAveragedTelemetryAsync(DateTime startDate, DateTime endDate, List<Location> locationsInSchool, bool byHour = false)
     {
-        powerReading.KW_Day = _context.PowerReadings
-            .AsNoTracking()
-            .Where(p => p.SQLTStamp.Date == DateTime.Today.Date)
-            .Sum(p => p.KiloWattHour);
-        powerReading.KW_YearSummarized = _context.PowerReadings
-            .AsNoTracking()
-            .Where(p => p.SQLTStamp.Year == DateTime.Now.Year)
-            .Sum(p => p.KiloWattHour);
-        _context.Add(powerReading);
-        await _context.SaveChangesAsync();
+        var locationIds = locationsInSchool.Select(l => l.LocationId).ToList();
+        return await _context.Telemetry
+                             .AsNoTracking()
+                             .Where(d => locationIds.Contains(d.LocationId))
+                             .Where(d => d.SQLTStamp > startDate && d.SQLTStamp < endDate)
+                             .GroupBy(d => new { Date = d.SQLTStamp.Date, Hour = byHour ? d.SQLTStamp.Hour : 0 })
+                             .Select(grouping => new Telemetry
+                             {
+                                 SQLTStamp = grouping.Key.Date.AddHours(grouping.Key.Hour),
+                                 Temperature = grouping.Average(r => r.Temperature),
+                                 Humidity = grouping.Average(r => r.Humidity),
+                                 KiloWattHour = grouping.Average(r => r.KiloWattHour)
+                             })
+                             .ToListAsync();
     }
 }
