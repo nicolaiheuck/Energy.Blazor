@@ -1,5 +1,8 @@
 ﻿using Blazored.Toast.Services;
+using Energy.Services.DTO;
+using Energy.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Toolbelt.Blazor.HotKeys2;
 
 namespace Energy.Blazor.Pages
@@ -15,18 +18,29 @@ namespace Energy.Blazor.Pages
 		[Inject]
 		public Toolbelt.Blazor.I18nText.I18nText? I18nText { get; set; }
 
-		private HotKeysContext? _hotKeysContext;
-		private I18nText.LanguageTable _languageTable = new();
+        [Inject]
+        public IEgonService? EgonService { get; set; }
 
-		protected override async Task OnInitializedAsync()
+        [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        private HotKeysContext? _hotKeysContext;
+		private I18nText.LanguageTable _languageTable = new();
+		private List<TelemetryDTO> _telemetryData = new();
+        private AuthenticationState _authenticationState;
+
+        protected override async Task OnInitializedAsync()
 		{
-			ArgumentNullException.ThrowIfNull(HotKeys);
+            _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            ArgumentNullException.ThrowIfNull(HotKeys);
 			ArgumentNullException.ThrowIfNull(I18nText);
 
 			_languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
 			_hotKeysContext = HotKeys.CreateContext()
 				.Add(Code.F8, Toaster);
+			_telemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddMonths(-6), DateTime.Now, "EUC");
 		}
+
+
 		void Toaster()
 		{
 			ArgumentNullException.ThrowIfNull(ToastService);

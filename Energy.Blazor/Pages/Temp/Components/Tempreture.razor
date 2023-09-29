@@ -1,13 +1,31 @@
 ﻿<RadzenCard class="m-3">
-	<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
-	<RadzenChart>
-		<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
-			<RadzenMarkers MarkerType="MarkerType.None" />
-			<RadzenSeriesDataLabels Visible="false" />
-		</RadzenLineSeries>
-		<RadzenValueAxis Min="10" Max="35">
-			<RadzenGridLines Visible="false" />
-		</RadzenValueAxis>
-	</RadzenChart>
+	<div class="row">
+		<div class="col-8">
+			<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
+			<RadzenChart>
+				<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
+					<RadzenMarkers MarkerType="MarkerType.None" />
+					<RadzenSeriesDataLabels Visible="false" />
+				</RadzenLineSeries>
+				<RadzenValueAxis Min="10" Max="35">
+					<RadzenGridLines Visible="false" />
+				</RadzenValueAxis>
+			</RadzenChart>
+		</div>
+		<div class="col-4">
+			<RadzenCard class="m-3">
+				<RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Text="@_languageTable["DatePicker"]" />
+				<RadzenDatePicker TValue="DateTime?" ShowTime="true" ShowSeconds="true" HoursStep="1" MinutesStep="5" SecondsStep="10" Change=@(args => OnTempDateChange(args)) DateFormat="yyyy-MM-dd HH:mm:ss" Class="w-100" />
+			</RadzenCard>
+			<RadzenCard class="m-3">
+				<RadzenText TextStyle="TextStyle.H6">
+					Settings
+				</RadzenText>
+				<RadzenTextBox class="m-1" @bind-Value="_thermostatSettings.NewTemperature" Placeholder="New temperature"></RadzenTextBox><br />
+				<RadzenTextBox class="m-1" @bind-Value="_thermostatSettings.NewHysteresis" Placeholder="New Hysteresis"></RadzenTextBox><br />
+				<RadzenButton class="m-1" Click="NewSettingsSubmitAsync">Submit</RadzenButton>
+			</RadzenCard>
+		</div>
+	</div>
 </RadzenCard>
 

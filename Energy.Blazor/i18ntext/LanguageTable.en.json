@@ -20,6 +20,8 @@
 	"DeleteConfirmation": "Are you sure you want to delete",
 
 	//Index
-	"HelloWorld": "Hello!"
+	"HelloWorld": "Hello!",
+
+	"DatePicker": "Choose a start Date: "
 
 }

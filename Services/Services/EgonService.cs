@@ -80,10 +80,10 @@ public class EgonService : IEgonService
         }
     }
 
-    public async Task<List<TelemetryDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO)
+    public async Task<List<TelemetryDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO, DateTime? startDate, DateTime endDate)
     {
           locationDTO = await GetLocationIdBySchoolFloorRoomAsync(locationDTO);
-          var results = await _egonRepository.GetAllDataReadingsByLocationIdAsync(locationDTO.LocationId);
+          var results = await _egonRepository.GetAllDataReadingsByLocationIdAsync(locationDTO.LocationId, startDate, endDate);
           List<TelemetryDTO> dataReadingDTOs = new();
           foreach (var result in results)
           {
