@@ -23,7 +23,6 @@ namespace Energy.Blazor.Pages.Power.Components
 		[CascadingParameter]
 		public LocationDTO SelectedDetailedLocation { get; set; }
 
-		private ThermostatSettingsDTO _thermostatSettings = new();
 		private List<TelemetryDTO> _telemetryData = new();
 		private HotKeysContext? _hotKeysContext;
 		private I18nText.LanguageTable _languageTable = new();
@@ -43,6 +42,7 @@ namespace Energy.Blazor.Pages.Power.Components
 		{
 			_telemetryData = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
 			await InvokeAsync(() => StateHasChanged());
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
 		}
 
 		void Toaster()

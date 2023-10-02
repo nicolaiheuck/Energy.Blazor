@@ -34,6 +34,7 @@ namespace Energy.Blazor.Pages.Power
 		private RadzenDataGrid<LocationDTO>? _locationInformationGrid;
 		private List<LocationDTO> _locationInformationFloor = new();
 		private List<LocationDTO> _locationInformationRoom = new();
+		private List<TelemetryDTO> _schoolTelemetryData = new();
 
 
 		private HotKeysContext? _hotKeysContext;
@@ -52,6 +53,7 @@ namespace Energy.Blazor.Pages.Power
 				.Add(Code.F8, Toaster);
 
 			_locationInformationFloor = await EgonService.GetAllLocationsBySchoolAsync("EUC");
+			_schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: true);
 		}
 
 

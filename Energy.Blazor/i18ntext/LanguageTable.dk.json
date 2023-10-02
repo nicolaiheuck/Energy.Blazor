@@ -15,6 +15,7 @@
 	"FailedDelete": "Kunne ikke slette",
 	"SuccessfullyCreated": "Succesfuldt oprettet",
 	"FailedCreate": "Kunne ikke oprette",
+	"SetTemp": "Sætte tempraturen Succesfuldt",
 
 	//Global - Modal
 	"DeleteConfirmation": "Er du sikker på du vil slette",

@@ -43,7 +43,8 @@ namespace Energy.Blazor.Pages.Temp.Components
         {
             _dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
             await InvokeAsync(() => StateHasChanged());
-        }
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
+		}
 
         private async Task NewSettingsSubmitAsync()
         {
@@ -51,7 +52,8 @@ namespace Energy.Blazor.Pages.Temp.Components
             _thermostatSettings.Floor = SelectedDetailedLocation.Floor;
             _thermostatSettings.Room = SelectedDetailedLocation.Room;
             await EgonService.SetThermostatSettingsAsync(_thermostatSettings);
-        }
+			ToastService.ShowSuccess(_languageTable["SetTemp"]);
+		}
 
 
         void Toaster()

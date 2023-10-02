@@ -43,7 +43,8 @@ namespace Energy.Blazor.Pages.Humid.Components
         {
             _dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
             await InvokeAsync(() => StateHasChanged());
-        }
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
+		}
 
         private async Task NewSettingsSubmitAsync()
         {

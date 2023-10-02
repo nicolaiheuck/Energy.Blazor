@@ -15,6 +15,7 @@
 	"FailedDelete": "Failed to delete",
 	"SuccessfullyCreated": "Successfully created",
 	"FailedCreate": "Failed to create",
+	"SetTemp": "Successfully set the tempreture",
 
 	//Global - Modal
 	"DeleteConfirmation": "Are you sure you want to delete",
