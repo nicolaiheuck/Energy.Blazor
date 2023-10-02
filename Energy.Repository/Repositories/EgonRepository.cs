@@ -60,11 +60,11 @@ public class EgonRepository : IEgonRepository
             .ToListAsync();
     }
     
-    public async Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId)
+    public async Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId, DateTime? startDate, DateTime endDate)
     {
       return await _context.Telemetry
         .AsNoTracking()
-        .Where(d => d.LocationId == locationId)
+        .Where(d => d.LocationId == locationId && d.SQLTStamp >= startDate && d.SQLTStamp <= endDate)
         .ToListAsync();
     }
     

@@ -1,10 +1,12 @@
 ﻿using Blazored.Toast.Services;
+using Energy.Services.DTO;
+using Energy.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Toolbelt.Blazor.HotKeys2;
 
-namespace Energy.Blazor.Pages
+namespace Energy.Blazor.Pages.Power.Components
 {
-    public partial class Power : IDisposable
+	public partial class PowerReadings : IDisposable
 	{
 		[Inject]
 		public IToastService? ToastService { get; set; }
@@ -15,6 +17,13 @@ namespace Energy.Blazor.Pages
 		[Inject]
 		public Toolbelt.Blazor.I18nText.I18nText? I18nText { get; set; }
 
+		[Inject]
+		public IEgonService? EgonService { get; set; }
+
+		[CascadingParameter]
+		public LocationDTO SelectedDetailedLocation { get; set; }
+
+		private List<TelemetryDTO> _telemetryData = new();
 		private HotKeysContext? _hotKeysContext;
 		private I18nText.LanguageTable _languageTable = new();
 
@@ -26,7 +35,16 @@ namespace Energy.Blazor.Pages
 			_languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
 			_hotKeysContext = HotKeys.CreateContext()
 				.Add(Code.F8, Toaster);
+			_telemetryData = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, DateTime.Now.AddDays(-2), DateTime.Now);
 		}
+
+		async Task OnTempDateChange(DateTime? value)
+		{
+			_telemetryData = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
+			await InvokeAsync(() => StateHasChanged());
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
+		}
+
 		void Toaster()
 		{
 			ArgumentNullException.ThrowIfNull(ToastService);

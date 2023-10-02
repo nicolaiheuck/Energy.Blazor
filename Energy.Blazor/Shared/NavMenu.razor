@@ -11,18 +11,18 @@
 </div>
 <RadzenPanelMenu Multiple="false">
 
-    <AuthorizeView Roles="Admin">
+    <AuthorizeView Roles="Admin, Servicemedarbejder">
         <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
         <RadzenPanelMenuItem Text="Temp" Path="/temp" Icon="thermostat"></RadzenPanelMenuItem>
         <RadzenPanelMenuItem Text="Humid" Path="/humid" Icon="dew_point"></RadzenPanelMenuItem>
         <RadzenPanelMenuItem Text="Power" Path="/power" Icon="electrical_services"></RadzenPanelMenuItem>
     </AuthorizeView>
 
-    @*     <AuthorizeView Roles=""> *@
-    @*         <RadzenPanelMenuItem Text="" Icon="">
-    <RadzenPanelMenuItem Text="" Icon="" Path=""></RadzenPanelMenuItem>
-    </RadzenPanelMenuItem> *@
-    @*     </AuthorizeView> *@
+  @*<AuthorizeView Roles="">
+        <RadzenPanelMenuItem Text="" Icon="">
+            <RadzenPanelMenuItem Text="" Icon="" Path=""></RadzenPanelMenuItem>
+        </RadzenPanelMenuItem> 
+     </AuthorizeView> *@
 
 </RadzenPanelMenu>
 

@@ -1,28 +1,28 @@
 ﻿@page "/"
-@attribute [Authorize(Roles = "Admin")]
-
+@attribute [Authorize(Roles = "Admin, Servicemedarbejder")]
 
 <PageTitle>Home</PageTitle>
 
 <div class="text-center">
-	<h1>@_languageTable["HelloWorld"]</h1>
-@* 	<RadzenCard>
-	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+	<h1>@_languageTable["Welcome"]</h1>
+	<img src="/images/EGON_logo.png" alt="EGON logo" style="max-height: 200px" />
+ 	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
 		<RadzenChart>
-			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Temp" ValueProperty="">
+			<RadzenLineSeries Smooth="true" Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
 				<RadzenMarkers MarkerType="MarkerType.Circle" />
 				<RadzenSeriesDataLabels Visible="false" />
 			</RadzenLineSeries>
-			<RadzenValueAxis Min="-5" Max="60">
+			<RadzenValueAxis Min="10" Max="35">
 				<RadzenGridLines Visible="true" />
 			</RadzenValueAxis>
 		</RadzenChart>
 	</RadzenCard>
 
-	<RadzenCard>
-	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Humidity</RadzenText>
 		<RadzenChart>
-			<RadzenLineSeries Smooth="true" Data="@" CategoryProperty="Date" Title="Humid" ValueProperty="">
+			<RadzenLineSeries Smooth="true" Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Humidity" ValueProperty="Humidity">
 				<RadzenMarkers MarkerType="MarkerType.Circle" />
 				<RadzenSeriesDataLabels Visible="false" />
 			</RadzenLineSeries>
@@ -32,17 +32,17 @@
 		</RadzenChart>
 	</RadzenCard>
 
-	<RadzenCard>
-	<RadzenText TextStyle="TextStyle.H4">Radzen Heading 4</RadzenText>
+	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Power</RadzenText>
 		<RadzenChart>
-			<RadzenColumnSeries Data="@" CategoryProperty="Quarter" Title="2020" LineType="LineType.Dashed" ValueProperty="">
+			<RadzenColumnSeries Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Kilo Watt Hour" ValueProperty="KiloWattHour">
 				<RadzenSeriesDataLabels Visible="@true" />
 			</RadzenColumnSeries>
 			<RadzenColumnOptions Radius="5" />
-			<RadzenValueAxis Formatter="@FormatAsUSD">
+			<RadzenValueAxis Min="0" Max="150">
 				<RadzenGridLines Visible="true" />
 			</RadzenValueAxis>
 		</RadzenChart>
-	</RadzenCard> *@
+	</RadzenCard> 
 </div>
 

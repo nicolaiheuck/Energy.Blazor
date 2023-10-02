@@ -9,7 +9,7 @@ public interface IEgonService
     Task<FagDTO> GetRoomBookingInfoAsync(string schoolName, string floor, string room);
     Task AddReadingAsync(MQTTDataReadingDTO dataReadingDto, string school, string floor, string room);
     Task<List<TelemetryDTO>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
-    Task<List<TelemetryDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO);
+    Task<List<TelemetryDTO>> GetAllDataReadingsByLocationIdAsync(LocationDTO locationDTO, DateTime? startDate, DateTime endDate);
     Task<List<LocationDTO>> GetAllLocationsBySchoolAsync(string school);
     Task<List<LocationDTO>> GetAllRoomsByFloorAsync(string floor);
     Task<LocationDTO?> GetLocationIdBySchoolFloorRoomAsync(LocationDTO locationDTO);

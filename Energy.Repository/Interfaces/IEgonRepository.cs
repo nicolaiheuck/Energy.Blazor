@@ -7,7 +7,7 @@ public interface IEgonRepository
     Task AddReadingAsync(Telemetry telemetry);
     Task<Location?> FindSchoolLocationAsync(string school, string floor, string room);
     Task<List<Telemetry>> GetAllDataReadingsAsync(DateTime startTime, DateTime endTime);
-    Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId);
+    Task<List<Telemetry>> GetAllDataReadingsByLocationIdAsync(int locationId, DateTime? startDate, DateTime endDate);
     Task<List<Location>> GetAllLocationsBySchoolAsync(string location);
     Task<List<Location>> GetAllRoomsByFloorAsync(string floor);
     Task<Location?> GetLocationIdBySchoolFloorRoomAsync(Location location);

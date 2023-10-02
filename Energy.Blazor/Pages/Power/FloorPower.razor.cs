@@ -7,9 +7,9 @@ using Radzen.Blazor;
 using Radzen;
 using Toolbelt.Blazor.HotKeys2;
 
-namespace Energy.Blazor.Pages.Humid
+namespace Energy.Blazor.Pages.Power
 {
-	public partial class Humid : IDisposable
+    public partial class FloorPower : IDisposable
 	{
 		[Inject]
 		public IToastService? ToastService { get; set; }
@@ -34,7 +34,8 @@ namespace Energy.Blazor.Pages.Humid
 		private RadzenDataGrid<LocationDTO>? _locationInformationGrid;
 		private List<LocationDTO> _locationInformationFloor = new();
 		private List<LocationDTO> _locationInformationRoom = new();
-		private List<TelemetryDTO> _schoolTelemetry = new();
+		private List<TelemetryDTO> _schoolTelemetryData = new();
+
 
 		private HotKeysContext? _hotKeysContext;
 		private I18nText.LanguageTable _languageTable = new();
@@ -52,7 +53,7 @@ namespace Energy.Blazor.Pages.Humid
 				.Add(Code.F8, Toaster);
 
 			_locationInformationFloor = await EgonService.GetAllLocationsBySchoolAsync("EUC");
-			_schoolTelemetry = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: true);
+			_schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: true);
 		}
 
 
@@ -65,7 +66,6 @@ namespace Energy.Blazor.Pages.Humid
 			SelectedDetailedLocation.Floor = locationfloor.Floor;
 			_locationInformationRoom = await EgonService.GetAllRoomsByFloorAsync(locationfloor.Floor);
 			IsTaskRunningService.IsTaskRunning = false;
-			_schoolTelemetry = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, SelectedDetailedLocation.School, SelectedDetailedLocation.Floor, byHour: true);
 		}
 
 

@@ -23,8 +23,8 @@ namespace Energy.Blazor.Pages.Humid.Components
 		[CascadingParameter]
 		public LocationDTO SelectedDetailedLocation { get; set; }
 
-
-		private List<TelemetryDTO> _dataReadingDTO = new();
+        private ThermostatSettingsDTO _thermostatSettings = new();
+        private List<TelemetryDTO> _dataReadingDTO = new();
 		private HotKeysContext? _hotKeysContext;
 		private I18nText.LanguageTable _languageTable = new();
 
@@ -36,9 +36,26 @@ namespace Energy.Blazor.Pages.Humid.Components
 			_languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
 			_hotKeysContext = HotKeys.CreateContext()
 				.Add(Code.F8, Toaster);
-			_dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation);
+            _dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, DateTime.Now.AddDays(-2), DateTime.Now);
+        }
+
+        async Task OnTempDateChange(DateTime? value)
+        {
+            _dataReadingDTO = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
+            await InvokeAsync(() => StateHasChanged());
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
 		}
-		void Toaster()
+
+        private async Task NewSettingsSubmitAsync()
+        {
+            _thermostatSettings.School = SelectedDetailedLocation.School;
+            _thermostatSettings.Floor = SelectedDetailedLocation.Floor;
+            _thermostatSettings.Room = SelectedDetailedLocation.Room;
+            await EgonService.SetThermostatSettingsAsync(_thermostatSettings);
+        }
+
+
+        void Toaster()
 		{
 			ArgumentNullException.ThrowIfNull(ToastService);
 			ToastService.ShowInfo("Congratulations, you just pressed hotkey: F8");

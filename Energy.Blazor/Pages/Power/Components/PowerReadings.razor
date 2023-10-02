@@ -1,14 +1,14 @@
 ﻿<RadzenCard class="m-3">
 	<div class="row">
 		<div class="col-8">
-			<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
+			<RadzenText TextStyle="TextStyle.H4">Power</RadzenText>
 			<RadzenChart>
-				<RadzenLineSeries Smooth="true" Data="@_dataReadingDTO" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
-					<RadzenMarkers MarkerType="MarkerType.None" />
-					<RadzenSeriesDataLabels Visible="false" />
-				</RadzenLineSeries>
-				<RadzenValueAxis Min="10" Max="35">
-					<RadzenGridLines Visible="false" />
+				<RadzenColumnSeries Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Kilo Watt Hour" ValueProperty="KiloWattHour">
+					<RadzenSeriesDataLabels Visible="@true" />
+				</RadzenColumnSeries>
+				<RadzenColumnOptions Radius="5" />
+				<RadzenValueAxis Min="0" Max="150">
+					<RadzenGridLines Visible="true" />
 				</RadzenValueAxis>
 			</RadzenChart>
 		</div>
@@ -20,4 +20,3 @@
 		</div>
 	</div>
 </RadzenCard>
-
