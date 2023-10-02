@@ -1,9 +1,9 @@
 ﻿@page "/humid"
 @using Energy.Blazor.Pages.Humid.Components;
 @using Energy.Services.DTO;
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize(Roles = "Admin, Servicemedarbejder")]
 
-<PageTitle>Temp</PageTitle>
+<PageTitle>Humid</PageTitle>
 
 
 <div class="container-fluid h-100">
