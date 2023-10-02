@@ -53,7 +53,7 @@ namespace Energy.Blazor.Pages.Temp
                 .Add(Code.F8, Toaster);
 
             _locationInformationFloor = await EgonService.GetAllLocationsBySchoolAsync("EUC");
-            _schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC");
+            _schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: true);
         }
 
 
@@ -66,7 +66,7 @@ namespace Energy.Blazor.Pages.Temp
             SelectedDetailedLocation.Floor = locationfloor.Floor;
             _locationInformationRoom = await EgonService.GetAllRoomsByFloorAsync(locationfloor.Floor);
             IsTaskRunningService.IsTaskRunning = false;
-            _schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, SelectedDetailedLocation.School, SelectedDetailedLocation.Floor);
+            _schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, SelectedDetailedLocation.School, SelectedDetailedLocation.Floor, byHour: true);
         }
 
 

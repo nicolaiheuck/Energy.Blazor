@@ -67,6 +67,21 @@
 					</CascadingValue>
 				}
 			}
+			@if (string.IsNullOrWhiteSpace(SelectedDetailedLocation.Room))
+			{
+				<RadzenCard class="m-3">
+					<RadzenText TextStyle="TextStyle.H4">Humidity</RadzenText>
+					<RadzenChart>
+						<RadzenLineSeries CategoryProperty="SQLTStamp" Data="@_schoolTelemetry" Smooth="true" Title="Humidity" ValueProperty="Humidity">
+							<RadzenMarkers MarkerType="MarkerType.None" />
+							<RadzenSeriesDataLabels Visible="false" />
+						</RadzenLineSeries>
+						<RadzenValueAxis Max="100" Min="0">
+							<RadzenGridLines Visible="true" />
+						</RadzenValueAxis>
+					</RadzenChart>
+				</RadzenCard>
+			}
 		</div>
 	</div>
 </div>
