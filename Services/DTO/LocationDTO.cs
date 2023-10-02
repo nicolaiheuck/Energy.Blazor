@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Energy.Repositories.Entities;
+namespace Energy.Services.DTO;
 
 [Table("EGON_Location")]
-public class Location
+public class LocationDTO
 {
     public int LocationId { get; set; }
     public string Room { get; set; }

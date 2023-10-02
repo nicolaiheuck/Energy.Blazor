@@ -10,6 +10,6 @@ public class EgonContext : DbContext
         
     }
     
-    public DbSet<DataReading> DataReadings { get; set; }
+    public DbSet<Telemetry> Telemetry { get; set; }
     public DbSet<Location> Locations { get; set; }
 }

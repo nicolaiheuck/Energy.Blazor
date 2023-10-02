@@ -1,29 +1,48 @@
 ﻿@page "/"
-@implements IDisposable
-@inject HotKeys HotKeys
-@inject IToastService ToastService
-@inject Toolbelt.Blazor.I18nText.I18nText I18nText
-@attribute [Authorize(Roles = "Admin")]
-
+@attribute [Authorize(Roles = "Admin, Servicemedarbejder")]
 
 <PageTitle>Home</PageTitle>
 
 <div class="text-center">
-    <h1>@languageTable["HelloWorld"]</h1>
+	<h1>@_languageTable["Welcome"]</h1>
+	<img src="/images/EGON_logo.png" alt="EGON logo" style="max-height: 200px" />
+ 	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Temperature</RadzenText>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Temperature" ValueProperty="Temperature">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="10" Max="35">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Humidity</RadzenText>
+		<RadzenChart>
+			<RadzenLineSeries Smooth="true" Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Humidity" ValueProperty="Humidity">
+				<RadzenMarkers MarkerType="MarkerType.Circle" />
+				<RadzenSeriesDataLabels Visible="false" />
+			</RadzenLineSeries>
+			<RadzenValueAxis Min="0" Max="100">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard>
+
+	<RadzenCard class="m-3">
+		<RadzenText TextStyle="TextStyle.H4">Power</RadzenText>
+		<RadzenChart>
+			<RadzenColumnSeries Data="@_telemetryData" CategoryProperty="SQLTStamp" Title="Kilo Watt Hour" ValueProperty="KiloWattHour">
+				<RadzenSeriesDataLabels Visible="@true" />
+			</RadzenColumnSeries>
+			<RadzenColumnOptions Radius="5" />
+			<RadzenValueAxis Min="0" Max="150">
+				<RadzenGridLines Visible="true" />
+			</RadzenValueAxis>
+		</RadzenChart>
+	</RadzenCard> 
 </div>
 
-@code {
-    HotKeysContext HotKeysContext;
-    I18nText.LanguageTable languageTable = new I18nText.LanguageTable();
-
-    protected override async Task OnInitializedAsync()
-    {
-        languageTable = await I18nText.GetTextTableAsync<I18nText.LanguageTable>(this);
-        this.HotKeysContext = this.HotKeys.CreateContext()
-            .Add(Code.F8, Toaster);
-    }
-
-    void Toaster() => ToastService.ShowInfo("Congratulations, you just pressed hotkey: F8");
-
-    public void Dispose() => this.HotKeysContext.Dispose();
-}

@@ -1,0 +1,87 @@
+﻿@page "/humid"
+@using Energy.Blazor.Pages.Humid.Components;
+@using Energy.Services.DTO;
+@attribute [Authorize(Roles = "Admin, Servicemedarbejder")]
+
+<PageTitle>Humid</PageTitle>
+
+
+<div class="container-fluid h-100">
+	<div class="row">
+		<div class="col-12 mt-10 mb-10">
+			<RadzenCard class="m-3">
+				<RadzenText TextStyle="TextStyle.H6">
+					List of Floors
+				</RadzenText>
+				<RadzenDataGrid @ref="_locationInformationGrid"
+								TItem="LocationDTO"
+								AllowPaging="true"
+								PageSize="@PageSize"
+								AllowColumnResize="true"
+								SelectionMode="DataGridSelectionMode.Single"
+								RowSelect="OnSelectedLocationFloor"
+								AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
+								PagerHorizontalAlign="HorizontalAlign.Center"
+								IsLoading=@IsTaskRunningService.IsTaskRunning
+								LoadData="@LoadData"
+								Data="@_locationInformationFloor"
+								Count="@Count">
+
+					<Columns>
+						<RadzenDataGridColumn TItem="LocationDTO" Property="Floor" Title="Floor"></RadzenDataGridColumn>
+					</Columns>
+				</RadzenDataGrid>
+			</RadzenCard>
+		</div>
+
+		<div class="col-12">
+			@if (!string.IsNullOrWhiteSpace(SelectedDetailedLocation.Floor))
+			{
+				<RadzenCard class="m-3">
+					<RadzenText TextStyle="TextStyle.H6">
+						List of Rooms
+					</RadzenText>
+					<RadzenDataGrid @ref="_locationInformationGrid"
+									TItem="LocationDTO"
+									AllowPaging="true"
+									PageSize="@PageSize"
+									AllowColumnResize="true"
+									SelectionMode="DataGridSelectionMode.Single"
+									RowSelect="OnSelectedLocationRoom"
+									AllowRowSelectOnRowClick="@(!IsTaskRunningService.IsTaskRunning)"
+									PagerHorizontalAlign="HorizontalAlign.Center"
+									IsLoading=@IsTaskRunningService.IsTaskRunning
+									LoadData="@LoadData"
+									Data="@_locationInformationRoom"
+									Count="@Count">
+
+						<Columns>
+							<RadzenDataGridColumn TItem="LocationDTO" Property="Room" Title="Room"></RadzenDataGridColumn>
+						</Columns>
+					</RadzenDataGrid>
+				</RadzenCard>
+				if (!string.IsNullOrWhiteSpace(SelectedDetailedLocation.Room))
+				{
+					<CascadingValue Value="@SelectedDetailedLocation">
+						<Humidity></Humidity>
+					</CascadingValue>
+				}
+			}
+			@if (string.IsNullOrWhiteSpace(SelectedDetailedLocation.Room))
+			{
+				<RadzenCard class="m-3">
+					<RadzenText TextStyle="TextStyle.H4">Humidity</RadzenText>
+					<RadzenChart>
+						<RadzenLineSeries CategoryProperty="SQLTStamp" Data="@_schoolTelemetry" Smooth="true" Title="Humidity" ValueProperty="Humidity">
+							<RadzenMarkers MarkerType="MarkerType.None" />
+							<RadzenSeriesDataLabels Visible="false" />
+						</RadzenLineSeries>
+						<RadzenValueAxis Max="100" Min="0">
+							<RadzenGridLines Visible="true" />
+						</RadzenValueAxis>
+					</RadzenChart>
+				</RadzenCard>
+			}
+		</div>
+	</div>
+</div>
