@@ -20,10 +20,9 @@
 - [Getting started](#getting-started)
 - [API endpoints](#api-endpoints)
 - [Libraries](#libraries)
-- [HIPO Diagrams](#hipo-diagrams)
-  - [Alarm](#alarm-1)
+- [Database Diagram](#database-diagram)
 - [Flowcharts](#flowcharts)
-  - [Alarm](#alarm-2)
+  - [Alarm](#alarm)
 - [License](#license)
 - [Contact](#contact)
 </details>
@@ -87,12 +86,9 @@ Make sure to read the setup!
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-# HIPO Diagrams
-<p align="right">(<a href="#top">back to top</a>)</p>
+# Database Diagram
 
-## Alarm
-![alarm hipo diagram](/Docs/Alarm_HIPO.png)
-`/Docs/Alarm_HIPO.png`
+![DBDiagram.png](DOCS%2FDBDiagram.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Flowcharts
