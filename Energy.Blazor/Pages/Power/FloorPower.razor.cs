@@ -53,7 +53,7 @@ namespace Energy.Blazor.Pages.Power
 				.Add(Code.F8, Toaster);
 
 			_locationInformationFloor = await EgonService.GetAllLocationsBySchoolAsync("EUC");
-			_schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: true);
+			_schoolTelemetryData = await EgonService.GetAveragedTelemetryAsync(DateTime.Now.AddDays(-7), DateTime.Now, "EUC", byHour: false);
 		}
 
 

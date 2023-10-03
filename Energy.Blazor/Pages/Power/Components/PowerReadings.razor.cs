@@ -41,9 +41,9 @@ namespace Energy.Blazor.Pages.Power.Components
 		async Task OnTempDateChange(DateTime? value)
 		{
 			_telemetryData = await EgonService.GetAllDataReadingsByLocationIdAsync(SelectedDetailedLocation, value, DateTime.Now);
-            await InvokeAsync(() => StateHasChanged());
-            ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
-        }
+			await InvokeAsync(() => StateHasChanged());
+			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
+		}
 
 		void Toaster()
 		{
