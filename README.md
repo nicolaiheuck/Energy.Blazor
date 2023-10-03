@@ -7,7 +7,7 @@
 [![License][license-shield]][license-url]
 
 # EGON
-#### Energy Grip Optimization Network
+#### Energy Grid Optimization Network
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -116,7 +116,7 @@ Make sure to read the setup!
 - Jan Andreasen - jan@tved.it
   - [![Twitter][twitter-shield]][twitter-url]
 
-Project Link: [https://github.com/nicolaiheuck/Engery.IoT](https://github.com/nicolaiheuck/Engery.IoT)
+Project Link: [https://github.com/nicolaiheuck/Energy.Blazor](https://github.com/nicolaiheuck/Energy.Blazor)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <sup>1</sup> - Look at me!
@@ -126,15 +126,15 @@ Project Link: [https://github.com/nicolaiheuck/Engery.IoT](https://github.com/ni
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [build-shield]: https://img.shields.io/badge/Build-passed-brightgreen.svg
 [test-shield]: https://img.shields.io/badge/Tests-passed-brightgreen.svg
-[contributors-shield]: https://img.shields.io/github/contributors/nicolaiheuck/Engery.IoT.svg?style=badge
-[contributors-url]: https://github.com/nicolaiheuck/Engery.IoT/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/nicolaiheuck/Engery.IoT.svg?style=badge
-[forks-url]: https://github.com/nicolaiheuck/Engery.IoT/network/members
-[issues-shield]: https://img.shields.io/github/issues/nicolaiheuck/Engery.IoT.svg?style=badge
-[closed-shield]: https://img.shields.io/github/issues-closed/nicolaiheuck/Engery.IoT?label=%20
-[issues-url]: https://github.com/nicolaiheuck/Engery.IoT/issues
-[license-shield]: https://img.shields.io/github/license/nicolaiheuck/Engery.IoT.svg?style=badge
-[license-url]: https://github.com/nicolaiheuck/Engery.IoT/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/nicolaiheuck/Energy.Blazor.svg?style=badge
+[contributors-url]: https://github.com/nicolaiheuck/Energy.Blazor/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/nicolaiheuck/Energy.Blazor.svg?style=badge
+[forks-url]: https://github.com/nicolaiheuck/Energy.Blazor/network/members
+[issues-shield]: https://img.shields.io/github/issues/nicolaiheuck/Energy.Blazor.svg?style=badge
+[closed-shield]: https://img.shields.io/github/issues-closed/nicolaiheuck/Energy.Blazor?label=%20
+[issues-url]: https://github.com/nicolaiheuck/Energy.Blazor/issues
+[license-shield]: https://img.shields.io/github/license/nicolaiheuck/Energy.Blazor.svg?style=badge
+[license-url]: https://github.com/nicolaiheuck/Energy.Blazor/blob/master/LICENSE
 [twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
 [twitter-url]: https://twitter.com/andreasen_jan
 [twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
