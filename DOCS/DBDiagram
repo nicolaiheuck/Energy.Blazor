@@ -1,0 +1,20 @@
+Table EGON_Location {
+  LocationID integer [primary key]
+  Room nvarchar(50)
+  Floor nvarchar(10)
+  Building nvarchar(50)
+}
+
+
+Table EGON_Telemetry {
+  Id integer [primary key]
+  LocationID integer
+  Temperature decimal(4,2)
+  Humidity decimal(4,2)
+  KiloWattHour decimal(10,6)
+  PeakWatt decimal(10,2)
+  SQLTStamp timestamp
+  KW_Day decimal(10,2)
+  KW_YearSummarized decimal(10,2)
+}
+Ref: EGON_Telemetry.LocationID > EGON_Location.LocationID
