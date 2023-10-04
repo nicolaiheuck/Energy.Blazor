@@ -86,16 +86,24 @@ EGON er bygget op i to dele - en IoT del samt en kombineret back- og frontend.
 
 EGON backend styrer kald til ekstern API (IST Uddata) hvor den henter information om lokaler automatisk, baseret på lokale "nummer".
 Den består af en MQTT klient der er koblet på den samme MQTT-broker som EGON IoT, og abonnerer på info for en given skole (i vores eksempel, EUC Syd)
+For at komme igang med EGON kræver det fire steps:
+1. Opsæt Azure CLI
+2. Database opsætning
+   1. Installer database jf. SQL script der findes under `/SETUP`
+   2. Opret bruger og giv de korrekte privilegier
+3. MQTT opsætning
+   1. Brokerens adresse angives i `appsettings.json` under feltet "BaseUrl"
+   ```json
+    "Mqtt": {
+            "BaseUrl": "10.131.15.57",
+            "EnergyOnlineState": "energy/onlinestate"
+        },
+    ```
+4. Front-/backend opsætning
+   1. Kontroller forbindelse til databasen
+   2. Inden opstart skal API forbindelse til IST opsættes
 
-Databasens sql setup findes i `/SETUP`, og connection string ligger i Azure KeyVault
 
-Brokerens adresse angives i `appsettings.json` under feltet "BaseUrl"
-```json
-"Mqtt": {
-        "BaseUrl": "10.131.15.57",
-        "EnergyOnlineState": "energy/onlinestate"
-    },
-```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Libraries
@@ -164,9 +172,6 @@ Brokerens adresse angives i `appsettings.json` under feltet "BaseUrl"
 
 Project Link: [https://github.com/nicolaiheuck/Energy.Blazor](https://github.com/nicolaiheuck/Energy.Blazor)
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<sup>1</sup> - Look at me!
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
