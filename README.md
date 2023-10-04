@@ -161,10 +161,11 @@ For at komme igang med EGON kræver det fire steps:
 
 # Contact
 - Peter Hymøller - peterhym21@gmail.com
-  - [![Twitter][twitter-shield-ptr]][twitter-url-ptr]
+  - [![Github][github-peter]][github-peter-link]
 - Nicolai Heuck - nicolaiheuck@gmail.com
+  - [![Github][github-nicolai]][github-nicolai-link]
 - Jan Andreasen - jan@tved.it
-  - [![Twitter][twitter-shield]][twitter-url]
+  - [![Github][github-jan]][github-jan-link]
 
 Project Link: [https://github.com/nicolaiheuck/Energy.Blazor](https://github.com/nicolaiheuck/Energy.Blazor)
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -182,7 +183,9 @@ Project Link: [https://github.com/nicolaiheuck/Energy.Blazor](https://github.com
 [issues-url]: https://github.com/nicolaiheuck/Energy.Blazor/issues
 [license-shield]: https://img.shields.io/github/license/nicolaiheuck/Energy.Blazor.svg?style=badge
 [license-url]: https://github.com/nicolaiheuck/Energy.Blazor/blob/master/LICENSE
-[twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
-[twitter-url]: https://twitter.com/andreasen_jan
-[twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
-[twitter-url-ptr]: https://twitter.com/peter_hym
+[github-peter]: https://img.shields.io/badge/Peter_Hymøller-green?logo=Github&label=Github
+[github-peter-link]: https://github.com/peterhym21
+[github-nicolai]: https://img.shields.io/badge/Nicolai_Heuck-green?logo=Github&label=Github
+[github-nicolai-link]: https://github.com/nicolaiheuck
+[github-jan]: https://img.shields.io/badge/Jan_Andreasen-green?logo=Github&label=Github
+[github-jan-link]: https://github.com/Thoroughbreed
