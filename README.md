@@ -62,7 +62,7 @@ Inspireret af udenlandske eksempler ønsker IT-Center Syd at udvikle og implemen
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 #  Summary and rundown
-EGON er lavet som et proof of concept i to dele IoT samt en kombineret back- og frontend (denne), hvor besøgende kan se info om lokalet, samt hvor ansatte i serviceafdelingen kan
+EGON er lavet som et proof of concept i to dele. IoT samt en kombineret back- og frontend (denne), hvor besøgende kan se info om lokalet, samt hvor ansatte i serviceafdelingen kan
 se hvordan "status" er for et lokale.
 
 EGON kan samtidig styre både temperatur, samt lys/strøm i lokalerne alt efter om et lokale står tomt eller er i brug.
