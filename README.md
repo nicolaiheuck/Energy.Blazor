@@ -27,7 +27,7 @@
 </details>
 
 # Case
-nspireret af udenlandske eksempler ønsker IT-Center Syd at udvikle og implementere en række nye IT-services:
+Inspireret af udenlandske eksempler ønsker IT-Center Syd at udvikle og implementere en række nye IT-services:
 > Info ved lokaler: Display ved alle lokaler, der angiver aktivitet, periode og lærernavn.
 
 > Energi- og Ressourceovervågning: En platform, der giver mulighed for overvågning og styring af skolernes energiforbrug og ressourceanvendelse. Dette kan inkludere intelligente målere og sensorer, der rapporterer forbrug i realtid og identificerer områder med potentiale for besparelser.
