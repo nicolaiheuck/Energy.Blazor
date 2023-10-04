@@ -21,7 +21,6 @@
 - [Libraries](#libraries)
 - [Database Diagram](#database-diagram)
 - [Flowcharts](#flowcharts)
-  - [Alarm](#alarm)
 - [License](#license)
 - [Contact](#contact)
 </details>
@@ -50,6 +49,7 @@ Inspireret af udenlandske eksempler ønsker IT-Center Syd at udvikle og implemen
 
 # Architecture diagram
 ![architecture diagram](/DOCS/EGON-Architecture-Diagram.drawio.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 # Roadmap
 - [x] Gemme data i et overskueligt format
@@ -59,6 +59,7 @@ Inspireret af udenlandske eksempler ønsker IT-Center Syd at udvikle og implemen
   - [x] Vise aktuel periode lokale er booket
   - [ ] Vise aktuel lærer
     * Dette var ikke muligt grundet begrænsninger ved ekstern API
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 #  Summary and rundown
 EGON er lavet som et proof of concept i to dele IoT samt en kombineret back- og frontend (denne), hvor besøgende kan se info om lokalet, samt hvor ansatte i serviceafdelingen kan
@@ -102,8 +103,6 @@ For at komme igang med EGON kræver det fire steps:
 4. Front-/backend opsætning
    1. Kontroller forbindelse til databasen
    2. Inden opstart skal API forbindelse til IST opsættes
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Libraries
@@ -147,13 +146,10 @@ For at komme igang med EGON kræver det fire steps:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Database Diagram
-
 ![DBDiagram.png](DOCS%2FDBDiagram.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Flowcharts
-
-## Alarm
 ![alarm flowchart](/Docs/Alarm_Flowchart.png)
 `/Docs/Alarm_Flowchart.png`
 <p align="right">(<a href="#top">back to top</a>)</p>
