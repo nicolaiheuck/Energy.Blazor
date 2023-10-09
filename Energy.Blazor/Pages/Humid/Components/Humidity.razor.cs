@@ -46,14 +46,6 @@ namespace Energy.Blazor.Pages.Humid.Components
 			ToastService.ShowSuccess(_languageTable["SuccessfullyUpdated"]);
 		}
 
-        private async Task NewSettingsSubmitAsync()
-        {
-            _thermostatSettings.School = SelectedDetailedLocation.School;
-            _thermostatSettings.Floor = SelectedDetailedLocation.Floor;
-            _thermostatSettings.Room = SelectedDetailedLocation.Room;
-            await EgonService.SetThermostatSettingsAsync(_thermostatSettings);
-        }
-
 
         void Toaster()
 		{
